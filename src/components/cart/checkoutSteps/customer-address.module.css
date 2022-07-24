@@ -1,0 +1,111 @@
+.logged-in {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(3, auto);
+}
+
+.manual-address {
+	display: flex;
+	flex-direction: column;
+	margin-left: 0;
+}
+
+.deliver-to-field {
+	width: 100%;
+	margin-left: 0;
+}
+
+.deliver-to-field.deliver-to-city {
+	width: 85%;
+}
+
+.deliver-to-field.deliver-to-zip-code {
+	width: 40%;
+}
+
+.deliver-to-state-list {
+	width: 33.333%;
+}
+
+.deliver-to-name {
+	/* display: block; */
+	line-height: 25px;
+	width: 100%;
+	margin-bottom: 1rem;
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.deliver-to-street-address {
+	/* display: block; */
+	line-height: 25px;
+	width: 60%;
+	margin-bottom: 1rem;
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.deliver-to-field-label {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.deliver-to-state-field {
+	line-height: 20px;
+	border: 1px solid #ccc;
+	color: #666;
+	border-radius: 4px;
+	width: 100%;
+}
+
+.form-control input {
+	width: 100%;
+}
+
+/* .form-fields-grid {
+	display: grid;
+	grid-template-columns: 1fr 0.5rem;
+	align-items: center;
+	gap: 0.5rem;
+	width: 100%;
+} */
+
+.form-field-label {
+	color: #666;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+[data-input-id='postal_code'] {
+	width: 16.6666%;
+}
+
+[data-input-id='address1'] {
+	width: 50%;
+}
+
+[data-input-id='address2'] {
+	width: 50%;
+}
+
+[data-input-id='city'] {
+	width: 50%;
+}
+
+@media screen and (min-width: 768px) {
+	.form-fields-grid {
+		display: grid;
+		grid-template-columns: 1fr 0.5rem;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.form-field-label {
+		grid-column: 1 / span 2;
+		color: #666;
+		font-size: 16px;
+		font-weight: 600;
+	}
+}

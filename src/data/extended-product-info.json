@@ -1,0 +1,34 @@
+[
+	{
+		"name": "colors",
+		"title": "Glazes",
+		"input": { "type": "select" },
+		"values": ["", "blue", "green", "ivory", "yellow"],
+		"sku-suffix": ["", "AB", "AG", "AI", "AY"],
+		"labels": [
+			"Select Color",
+			"Blue Glaze",
+			"Green Glaze",
+			"Ivory Glaze",
+			"Yellow Glaze"
+		],
+		"rules": [
+			{
+				"output": {
+					"fields": [
+						{
+							"field": "sku",
+							"action": "append",
+							"hyphen": true
+						},
+						{
+							"field": "title",
+							"action": "append",
+							"hyphen": true
+						}
+					]
+				}
+			}
+		]
+	}
+]

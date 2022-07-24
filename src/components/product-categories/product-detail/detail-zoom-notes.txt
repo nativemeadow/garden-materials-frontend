@@ -1,0 +1,37 @@
+// type ContainerProps = React.HTMLProps<HTMLDivElement>;
+
+// const DivContainer = React.forwardRef<HTMLDivElement, ContainerProps>(
+// 	(props, ref: React.ForwardedRef<HTMLDivElement | null>) => (
+// 		<div
+// 			className={props.className}
+// 			onMouseMove={props.onMouseMove}
+// 			onMouseOut={props.onMouseOut}
+// 			ref={ref}>
+// 			{props.children}
+// 		</div>
+// 	)
+// );
+
+// const ImageContainer = React.forwardRef<HTMLImageElement, ContainerProps>(
+// 	(props, ref: React.ForwardedRef<HTMLImageElement | null>) => (
+// 		<img
+// 			className={props.className}
+// 			src={props.src}
+// 			style={props.style}
+// 			ref={ref}
+// 			alt={props.alt}
+// 		/>
+// 	)
+// );
+
+// const LensContainer = React.forwardRef<HTMLDivElement, ContainerProps>(
+// 	(props, ref: React.ForwardedRef<HTMLDivElement | null>) => (
+// 		<div className={props.className} style={props.style} ref={ref}></div>
+// 	)
+// );
+
+// const ResultContainer = React.forwardRef<HTMLDivElement, ContainerProps>(
+// 	(props, ref: React.ForwardedRef<HTMLDivElement | null>) => (
+// 		<div className={props.className} style={props.style} ref={ref}></div>
+// 	)
+// );

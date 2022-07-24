@@ -1,0 +1,205 @@
+
+h3.component-title {
+  color: #231F20;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Raleway', sans-serif;
+}
+
+.connections {
+  grid-area: connect;
+  width: 100%;
+  margin: 5.13rem 0 7.19rem;
+}
+
+.connections__grid {
+  max-width: 1300px;
+  width: 98%;
+  margin: 0 auto;
+  outline: none;
+  display: grid;
+  grid-auto-rows: minmax(5rem, auto);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: "connections affiliates";
+}
+
+.connect-section {
+  grid-area: connections;
+  background: #fff;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-template-columns: 1fr; 
+  justify-content: center; 
+  grid-template-areas: 
+    "heading" 
+    "connect" 
+    "product-title"
+    "products"
+    "address-title" 
+    "address-hours";
+  align-items: center;
+}
+
+@media screen and (min-width: 995px)  {
+  
+    .connect-section {
+      grid-area: connections;
+      background: #fff;
+      display: grid;
+      gap: 1rem;
+      grid-auto-rows: minmax(min-content, max-content);
+      grid-template-columns: repeat(2, 1fr); 
+      justify-content: center; 
+      grid-template-areas: 
+        "heading ." 
+        "connect ." 
+        "product-title address-title" 
+        "products address-hours";
+      align-items: center;
+    }
+
+}
+
+.connect-section__title {
+  grid-area: heading;
+}
+
+.connect__items {
+  grid-area: connect;
+  margin: 0 0 1rem;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.connect__item {
+  color: #333;
+  font-size: 1rem;
+  display: block;
+  font-family: 'Aleo', serif;
+  font-weight: 400;
+  white-space: nowrap; 
+}
+
+.connect__item-social {
+  color: #231F20;
+  font-weight: 400;
+  font-size: 1.5rem;
+  /* width: 1.7rem; */
+  display: inline-block;
+  text-align: left;
+  /* margin: 0 8px; */
+  -o-transition: .1s;
+  -ms-transition: .1s;
+  -moz-transition: .1s;
+  -webkit-transition: .1s;
+  transition: 0.1s;
+}
+
+.products__title {
+  grid-area: product-title;
+  color: #231F20;
+  font-size: 1rem;
+  padding: 0;
+  font-weight: 600;
+  font-family: 'Raleway', sans-serif;
+}
+
+.product__items {
+  grid-area: products;
+  list-style: none;
+}
+
+.product__item {
+  font-size: 1rem;
+  line-height: 160%;
+  font-family: 'Raleway', sans-serif;
+  margin: 0 0 .8rem 0;
+}
+
+.product-item__link { 
+    color: #231F20;
+    font-weight: 400;
+}
+
+.address-hours__title {
+  grid-area: address-title;
+}
+
+.address__detail {
+  margin: 0;
+  padding: 0;
+}
+
+.address--hours {
+  grid-area: address-hours;
+  align-self: start;
+}
+
+.affiliates--section {
+  grid-area: affiliates;
+  background: #fff;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-areas: "affiliates-title . ." "affiliate1 affiliate2 affiliate3" "affiliate4 affiliate5 affiliate6" "partners-title . ." "partners partners partners";
+}
+
+.affiliates--section__img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  height: 3.75rem;
+}
+
+.capt_ft_img .col_inner {
+  height: 60px;
+}
+
+.affiliates--section__title {
+  grid-area: affiliates-title;
+  margin: 0;
+  justify-self: self-start;
+}
+
+.affiliate-one {
+  grid-area: affiliate1;
+}
+
+.affiliate-two {
+  grid-area: affiliate2;
+}
+
+.affiliate-three {
+  grid-area: affiliate3;
+}
+
+.affiliate-four {
+  grid-area: affiliate4;
+}
+
+.affiliate-five {
+  grid-area: affiliate5;
+}
+
+.affiliate-six {
+  grid-area: affiliate6;
+}
+
+.partners--section__title {
+  grid-area: partners-title;
+}
+
+.partners--section {
+  grid-area: partners;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0;
+}

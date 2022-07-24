@@ -1,0 +1,50 @@
+.calculator__modal {
+	background-color: rgb(241, 214, 214);
+	overflow-y: auto;
+	height: 80%;
+}
+
+.calculator-item__modal-content {
+	padding: 0;
+}
+
+.calculator-item__modal-actions {
+	text-align: right;
+}
+
+.item__modal-header {
+	background-color: #fff;
+	color: #aa081e;
+}
+
+.addToCart__modal-content {
+	padding: 0;
+}
+
+.addToCart-item__modal-actions {
+	text-align: right;
+}
+
+.addToCart-item__modal-actions button {
+	margin: 0;
+}
+
+@media (max-width: 640px) {
+	.calculator__modal {
+		top: 12vh;
+	}
+}
+
+@media (min-width: 769px) {
+	.calculator__modal {
+		height: 70%;
+	}
+}
+
+@media (min-width: 1150px) {
+	.calculator__modal {
+		max-width: 50rem;
+		width: 70%;
+		height: 65%;
+	}
+}

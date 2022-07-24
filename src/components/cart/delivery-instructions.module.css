@@ -1,0 +1,22 @@
+.delivery__modal-header {
+	background-color: #fff;
+	color: #aa081e;
+}
+
+.delivery__order-instructions {
+	margin: 0 0 20px 0.5rem;
+	color: #1a1a1a;
+	font-weight: 600;
+}
+
+.delivery__modal-content {
+	padding: 0;
+}
+
+.delivery__modal-actions {
+	text-align: right;
+}
+
+.delivery__modal-textarea {
+	margin-left: 0.5rem;
+}

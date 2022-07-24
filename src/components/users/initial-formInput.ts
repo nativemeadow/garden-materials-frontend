@@ -1,0 +1,15 @@
+export const formInputs = {
+	username: { value: '', isValid: false },
+	password: { value: '', isValid: false },
+	passwordConfirmation: { value: '', isValid: false },
+	first_name: { value: '', isValid: false },
+	last_name: { value: '', isValid: false },
+	email: { value: '', isValid: false },
+	phone: { value: '', isValid: true },
+	address: { value: '', isValid: true },
+	city: { value: '', isValid: true },
+	country: { value: 'US', isValid: true },
+	state_province: { value: 'CA', isValid: true },
+	postal_code: { value: '', isValid: true },
+	company: { value: '', isValid: true },
+};
