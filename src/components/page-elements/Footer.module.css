@@ -1,0 +1,29 @@
+.layout {
+	width: 100%;
+	background: #ece8e1;
+}
+
+.wrapper {
+	padding: 1.25rem 0 3.5rem 0;
+	max-width: 1300px;
+	width: 98%;
+	margin: 0 auto;
+}
+
+.content {
+	display: flex;
+	justify-content: space-between;
+}
+
+.items {
+	padding: 0;
+	list-style: none;
+	display: flex;
+	gap: 0.5rem;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.link {
+	color: #000;
+}

@@ -1,0 +1,128 @@
+h1 {
+	font-weight: 700;
+	color: #333;
+	padding: 10px 0;
+	cursor: pointer;
+}
+
+.content-wrapper {
+	display: block;
+}
+
+.login {
+	display: block;
+}
+
+.login-field {
+	width: 100%;
+}
+
+.login__password,
+.login__username,
+.form-field {
+	display: block;
+	/* line-height: 25px; */
+	width: 100%;
+	/* margin-bottom: 1rem;
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 4px; */
+}
+
+.login-button {
+	width: 100%;
+}
+
+.login-button:hover {
+	color: #fff;
+	background-color: #aa081e;
+}
+
+.login-field-label {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.reset-password {
+	justify-self: right;
+	width: 15%;
+	min-width: 6rem;
+	font-size: 14px;
+	height: 45px;
+	line-height: 20px;
+	border: 2px solid #ccc;
+}
+
+.reset-password:hover {
+	color: #fff;
+	background-color: #ccc;
+}
+
+.login-button,
+.reset-password {
+	margin: 0;
+}
+
+.login-button:disabled,
+.login-button:hover:disabled,
+.login-button:active:disabled {
+	background: #ccc;
+	color: #979797;
+	border-color: #ccc;
+	cursor: not-allowed;
+}
+
+.sub-title {
+	font-size: 14px;
+	font-weight: 500;
+	color: #333;
+	padding: 10px 0;
+	margin-bottom: 2rem;
+}
+
+.create-account__link {
+	color: #333;
+}
+
+.login-wrapper {
+	width: 92%;
+}
+
+.divider {
+	border-top: 2px solid #ccc;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.required {
+	color: #aa081e;
+	font-size: 1.5rem;
+}
+
+.form-fields-grid {
+	display: grid;
+	grid-template-columns: 1fr 0.5rem;
+	grid-template-rows: auto;
+	grid-gap: 0.5rem;
+	width: 100%;
+}
+
+.form-field-label {
+	grid-column: 1 / -1;
+}
+
+.error {
+	color: #aa081e;
+	font-size: 1rem;
+	text-align: left;
+	position: absolute;
+	bottom: -28px;
+	left: 0px;
+	background-color: #fff;
+	padding: 0.5rem;
+	border-color: #aa081e;
+	border-width: thin;
+}
+
+.error__listItems {
+}

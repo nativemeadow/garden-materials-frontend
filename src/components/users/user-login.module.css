@@ -1,0 +1,92 @@
+.login__container {
+	max-width: var(--max-container-size);
+	min-width: var(--min-container-size);
+	width: 75%;
+	margin: 0 auto;
+	padding: 80px 0 100px 0;
+}
+
+.login__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+	.login__grid {
+		display: grid;
+		grid-template-columns: 25rem 25rem;
+		align-items: self-start;
+		gap: 2rem;
+	}
+}
+
+.create-account__button {
+	margin-top: 1.6rem;
+	margin-bottom: 1.6rem;
+	border: 2px solid #aa081e;
+	padding: 10px 20px;
+	display: block;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: 18px;
+	color: #333;
+	text-align: center;
+	transition: 0.5s;
+}
+
+.login__form,
+.login__new-account {
+	border: 2px solid #e6e6e6;
+	border-radius: 3px;
+	padding: 1.88rem;
+	font-weight: normal;
+}
+
+.login__form h2,
+.login__new-account h2 {
+	font-size: 24px;
+	margin-bottom: 1rem;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 600;
+}
+
+.login__label {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.login__form--password,
+.login__form--username {
+	line-height: 25px;
+	width: 100%;
+	margin-bottom: 1rem;
+}
+
+.create-account__link {
+	color: #333;
+}
+
+.login__button {
+	margin-left: 0;
+	background-color: #fff;
+	width: 100%;
+}
+
+.login__button:hover,
+.login__button:active,
+.create-account__button:hover,
+.create-account__button:active {
+	background-color: #aa081e;
+	color: #fff;
+}
+
+.login__button:disabled,
+.login__button:hover:disabled,
+.login__button:active:disabled {
+	background: #ccc;
+	color: #979797;
+	border-color: #ccc;
+	cursor: not-allowed;
+}

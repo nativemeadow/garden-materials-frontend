@@ -1,0 +1,58 @@
+/* image overlay tint adapted from https://codepen.io/ArnaudBalland/pen/vGZKLr */
+
+.zoom-container {
+	position: relative;
+}
+
+.zoom-image {
+	object-fit: cover;
+	width: 100%;
+	max-height: 100%;
+}
+
+/* opacity 0 so the the background color is not seen */
+.zoom-container .zoom-tint {
+	background: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	height: 99%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	opacity: 0;
+	-webkit-transition: all 0.4s ease-in-out 0s;
+	-moz-transition: all 0.4s ease-in-out 0s;
+	transition: all 0.4s ease-in-out 0s;
+}
+
+/* until hover over the image when opacity goes to 1*/
+.zoom-container:hover .zoom-tint {
+	opacity: 1;
+}
+
+.zoom-lens {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-color: #000;
+	border-width: thin;
+	border-style: solid;
+	/* background-color: rgba(255, 255, 255, 0.6); */
+}
+
+.zoom-result {
+	display: block;
+	position: absolute;
+	left: 100%;
+	top: 0px;
+	width: 100%;
+	height: 500px;
+	border-color: rgb(148, 141, 141);
+	border-width: 0.3rem;
+	border-style: solid;
+	background-repeat: no-repeat;
+	z-index: 20;
+}

@@ -1,0 +1,162 @@
+.product-gallery__heading {
+	font-weight: 700;
+	padding-bottom: 25px;
+	margin-bottom: 15px;
+	font-size: 25px;
+	text-align: center;
+}
+
+/* smallest screen size */
+.product-gallery__grid {
+	display: grid;
+	grid-auto-rows: minmax(15rem, auto);
+	grid-template-columns: 1fr;
+	gap: 0.8rem;
+	grid-template-areas:
+		'sand-gravel-aggregates'
+		'composts-mulches-soils-amendments'
+		'biologicals-fertilizers-bagged-soils'
+		'natural-stone'
+		'pottery-garden-ornaments'
+		'water-features'
+		'building-materials-tools'
+		'precast-concrete';
+}
+
+/* largest screen size */
+@media screen and (min-width: 991px) {
+	.product-gallery__grid {
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas:
+			'sand-gravel-aggregates natural-stone water-features'
+			'composts-mulches-soils-amendments natural-stone building-materials-tools'
+			'biologicals-fertilizers-bagged-soils pottery-garden-ornaments building-materials-tools'
+			'biologicals-fertilizers-bagged-soils pottery-garden-ornaments precast-concrete';
+	}
+}
+
+@media screen and (min-width: 851px) and (max-width: 990px) {
+	.product-gallery__grid {
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas:
+			'sand-gravel-aggregates natural-stone building-materials-tools'
+			'composts-mulches-soils-amendments pottery-garden-ornaments precast-concrete'
+			'biologicals-fertilizers-bagged-soils water-features .';
+	}
+}
+
+/* intermediate screen size before smallest */
+@media screen and (min-width: 481px) and (max-width: 850px) {
+	.product-gallery__grid {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas:
+			'sand-gravel-aggregates pottery-garden-ornaments'
+			'composts-mulches-soils-amendments water-features'
+			'biologicals-fertilizers-bagged-soils building-materials-tools'
+			'natural-stone precast-concrete';
+	}
+}
+
+.product-gallery__item {
+	margin-bottom: 0px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border-radius: 0.3rem;
+}
+
+.product-gallery__card {
+	position: absolute;
+	top: 90px;
+	width: 260px;
+	height: 65px;
+	text-align: center;
+	transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	color: #231f20;
+	background: #fff;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 600 !important;
+	padding: 10px 20px;
+	margin: 0;
+	left: 50%;
+}
+
+.product-gallery {
+	max-width: var(--max-container-size);
+	min-width: var(--min-container-size);
+	width: 98%;
+	margin: 0 auto;
+	padding: 80px 0 100px 0;
+}
+
+.product-gallery__title {
+	text-align: center;
+}
+
+.product-gallery__category-title {
+	font-size: 1rem;
+	color: #333;
+	font-weight: 600;
+}
+
+.product-gallery__item > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.product-gallery__item > img:hover {
+	-webkit-filter: brightness(50%);
+	-moz-filter: brightness(50%);
+	/* filter: url(#brightness); */
+	filter: brightness(50%);
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+}
+
+.product-gallery__link {
+	display: contents;
+	position: relative;
+	width: 100%;
+	max-height: 100%;
+}
+
+.product-gallery__sand-gravel-aggregates {
+	grid-area: 'sand-gravel-aggregates';
+}
+
+.product-gallery__composts-mulches-soils-amendments {
+	grid-area: composts-mulches-soils-amendments;
+}
+
+.product-gallery__biologicals-fertilizers-bagged-soils {
+	grid-area: biologicals-fertilizers-bagged-soils;
+}
+
+.product-gallery__natural-stone {
+	grid-area: natural-stone;
+}
+
+.product-gallery__pottery-garden-ornaments {
+	grid-area: pottery-garden-ornaments;
+}
+
+.product-gallery__water-features {
+	grid-area: water-features;
+}
+
+.product-gallery__building-materials-tools {
+	grid-area: building-materials-tools;
+}
+
+.product-gallery__precast-concrete {
+	grid-area: precast-concrete;
+}

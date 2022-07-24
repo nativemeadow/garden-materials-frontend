@@ -1,0 +1,234 @@
+.signup__section {
+	grid-area: newsletter-signup;
+	width: 100%;
+	margin: 5.13rem 0 7.19rem;
+	background: #ece8e1;
+}
+
+.signup__flex {
+	max-width: 1300px;
+	width: 98%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	justify-content: center;
+	align-content: space-evenly;
+	padding: 3rem 2rem;
+}
+
+.signup__wrapper {
+	margin: auto 0;
+}
+
+.newsletter__title {
+	line-height: 140%;
+	font-weight: normal;
+	align-self: center;
+}
+
+.newsletter__general {
+	padding-bottom: 0.4rem;
+}
+
+.newsletter__form {
+	display: grid;
+	gap: 0.5rem;
+	grid-auto-rows: minmax(min-content, max-content);
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-areas: 'checkboxes email button';
+	justify-content: center;
+	align-items: center;
+	width: 20rem;
+}
+
+.checkboxes {
+	grid-area: checkboxes;
+	justify-self: self-end;
+}
+
+.checkboxes__list {
+	list-style: none;
+	text-align: left;
+}
+
+.checkboxes__list:first-child {
+	margin-bottom: 0.3rem;
+}
+
+.checkboxes__label {
+	display: block;
+	font-size: 1rem;
+	padding-bottom: 0.2rem;
+	font-weight: bold;
+}
+
+.email {
+	grid-area: email;
+}
+
+.email__wrap {
+	display: inline-block;
+	justify-self: self-end;
+}
+
+.email__input {
+	font-family: 'Raleway', 'Helvetica Neue', Arial, Helvetica, Verdana,
+		sans-serif;
+	font-size: 1rem;
+	border: 0.19rem solid #cacaca;
+	border-radius: 0.63rem;
+	height: 3.13rem;
+}
+
+.email__input--view {
+	font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, Verdana,
+		sans-serif;
+	font-size: 0.98rem;
+	border: 0.2rem solid #abb0b2;
+	-webkit-border-radius: 0.2rem;
+	-moz-border-radius: 0.2rem;
+	border-radius: 0.4rem;
+	color: #343434;
+	background-color: #fff;
+	box-sizing: border-box;
+	height: 3rem;
+	padding: 0.4em;
+	display: inline-block;
+	margin: 0;
+	width: 15rem;
+}
+
+.button {
+	grid-area: button;
+}
+
+.button__join {
+	font-size: 0.81rem;
+	border: none;
+	-webkit-border-radius: 0.19rem;
+	-moz-border-radius: 0.19rem;
+	border-radius: 0.19rem;
+	letter-spacing: 0.03em;
+	color: #fff;
+	background-color: #aaa;
+	box-sizing: border-box;
+	height: 2rem;
+	line-height: 2rem;
+	padding: 0 1.13rem;
+	display: inline-block;
+	margin: 0;
+	transition: all 0.23s ease-in-out 0s;
+}
+
+.button__join {
+	font-size: 1.13rem;
+	font-family: 'Aleo', serif;
+	font-weight: 600;
+	border-radius: 0.31rem;
+	background-color: #a8081e;
+	height: 3rem;
+}
+
+.button__join:hover,
+.button__join:active {
+	background-color: #4e040e;
+}
+
+.info__icon {
+	width: 100%;
+	max-width: 1.25rem;
+	position: relative;
+}
+
+.newsletter__form .tooltip {
+	padding: 0;
+	background: none;
+	border: none;
+}
+
+.newsletter__form .tooltip {
+	position: relative;
+	display: inline-block;
+	opacity: 1;
+	margin-left: 5px;
+}
+
+.tooltip {
+	background: #fff;
+	padding: 15px;
+	line-height: 16px;
+	font-size: 13px;
+	border: 1px solid #aa081e;
+}
+
+.newsletter__checkbox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 0.3rem;
+}
+
+.tooltip__text {
+	width: 300px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 10px;
+	border-radius: 6px;
+	top: -36px;
+	left: 140%;
+	opacity: 0;
+	transition: opacity 1s;
+	position: absolute;
+	visibility: hidden;
+}
+
+.info__label {
+	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.signup__flex {
+		flex-direction: row;
+	}
+
+	.newsletter__form {
+		display: grid;
+		gap: 0.5rem;
+		grid-auto-rows: minmax(min-content, max-content);
+		grid-template-columns: 30% 50% 20%;
+		grid-template-areas: 'checkboxes email button';
+		justify-content: center;
+		align-items: center;
+		width: 46rem;
+	}
+
+	.email__input--view {
+		width: 21.88rem;
+	}
+
+	.newsletter__checkbox {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: nowrap;
+		gap: 0.3rem;
+	}
+}
+
+@media screen and (min-width: 1092px) {
+	.signup__flex {
+		flex-direction: row;
+	}
+
+	.newsletter__title {
+		width: 13rem;
+	}
+
+	.newsletter__form {
+		max-width: 46rem;
+		min-width: 43rem;
+	}
+}

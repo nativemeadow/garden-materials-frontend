@@ -1,0 +1,54 @@
+.top-bar {
+	width: 100%;
+	background: #ece8e1;
+	height: 2.44rem;
+	display: flex;
+	justify-content: right;
+	align-items: center;
+	padding-right: 1rem;
+}
+
+.container {
+	max-width: 1140px;
+	width: 98%;
+	margin: 0 auto;
+	outline: none;
+}
+
+@media screen and (min-width: 1200px) {
+	.top-bar .container {
+		width: 1170px;
+	}
+}
+
+@media screen and (min-width: 900px) {
+	.top-bar .container {
+		max-width: 1250px;
+	}
+}
+
+.top-bar__items {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	justify-content: right;
+}
+
+.top-bar__item {
+	margin: 0 0.5rem;
+}
+
+.top-bar__item a {
+	color: #231f20;
+}
+
+.button--default {
+	font-weight: bold;
+	color: #231f20;
+	background-color: #ece8e1;
+	padding: 0;
+	margin: 0;
+	margin-left: 1rem;
+	margin-top: 1rem;
+}

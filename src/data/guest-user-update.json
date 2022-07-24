@@ -1,0 +1,41 @@
+[
+	{
+		"id": "1e5e590e-1f15-4058-9c81-5d036efa19aa",
+		"first_name": "Mary",
+		"last_name": "Anderson",
+		"email": "maderson@test.com",
+		"phone": "650 123-4567",
+		"address": "21 Jump Street",
+		"city": "San Carlos",
+		"state_province": "CA",
+		"postal_code": "94070",
+		"country": "USA"
+	},
+
+	{
+		"id": "42cb3c48-20d8-444a-a183-27558c87fd6",
+		"username": "joemoeman",
+		"first_name": "Joe",
+		"last_name": "Moeman",
+		"password": "test12345",
+		"passwordConfirmation": "test12345",
+		"email": "maderjoemoemanson@test.com",
+		"phone": "650 123-4567",
+		"address": "West 21 Jump Street",
+		"city": "San Jose",
+		"state_province": "CA",
+		"postal_code": "90070",
+		"country": "USA"
+	}
+]
+
+[
+	{
+		"user_id": "b6a19327-e5d5-4b06-aba6-3607d81671a6",
+		"delivery_instructions": "Leave on the driveway",
+		"requested_delivery_date": "2018-01-01",
+		"purchase_order": "123456789",
+	},
+	{RowDataPacket {cart_id: 24, item_id: 139, category_id: 33, product_id: 130, sku: 'BOB1', …}}
+]
+

@@ -1,0 +1,47 @@
+.options-wrapper {
+	position: relative;
+	height: auto;
+	max-height: 9999px;
+}
+
+.options {
+	max-height: 0;
+	overflow: hidden;
+	transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.options-enter {
+	height: auto;
+	max-height: 9999px;
+	transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+}
+
+.options-enter-active {
+	height: auto;
+	max-height: 9999px;
+	transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+}
+
+.options-enter-done {
+	height: auto;
+	max-height: 9999px;
+	transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+}
+
+.options-exit {
+	height: auto;
+	max-height: 9999px;
+	transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+}
+
+.options-exit-active {
+	max-height: 0;
+	overflow: hidden;
+	transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.options-exit-done {
+	max-height: 0;
+	overflow: hidden;
+	transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}

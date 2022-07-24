@@ -1,0 +1,10 @@
+{
+	"BACKEND_URL": "http://localhost:5001/api",
+	"IMAGES": "http://localhost:5001/images",
+	"SALES_TAX": 0.085,
+	"GOOGLE_API_Key": "AIzaSyD3XMX10nud1crbt5f6nXkQ7yJYmyJhktA",
+	"GOOGLE_MAP_ORIGIN": "345 Shoreway Road San Carlos, CA 94070",
+	"SHIPPING_MAX_DISTANCE": 50,
+	"SHIPPING_INCREMENT_DISTANCE": 5,
+	"SHIPPING_BASE_COST": 72
+}

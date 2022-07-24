@@ -1,0 +1,121 @@
+.reg-login__container {
+	max-width: var(--max-container-size);
+	min-width: var(--min-container-size);
+	width: 75%;
+	margin: 0 auto;
+	padding: 80px 0 100px 0;
+}
+
+.reg-login__container h2 {
+	margin-bottom: 3rem;
+}
+
+.reg-login-information,
+.reg-login-name-address {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.5rem;
+}
+
+.reg-login__name-address-heading,
+.reg-login__heading,
+.reg-login__company-heading {
+	font-family: 'Raleway', sans-serif;
+	font-weight: 600;
+}
+
+.reg-login__heading {
+	margin-bottom: 1rem;
+}
+
+.reg-login__name-address-heading {
+	margin-top: 3rem;
+}
+
+.form-fields-grid {
+	display: grid;
+	grid-template-columns: 25rem, 25rem;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.form-field-label {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.requested-label {
+	align-self: baseline;
+	justify-self: start;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.required {
+	color: #aa081e;
+	font-size: 1.5rem;
+}
+
+.reg-login__button {
+	background-color: #fff;
+}
+
+.reg-login__button:hover,
+.reg-login__button:active {
+	background-color: #aa081e;
+	color: #fff;
+}
+
+.button:disabled,
+.button:hover:disabled,
+.button:active:disabled {
+	background: #ccc;
+	color: #979797;
+	border-color: #ccc;
+	cursor: not-allowed;
+}
+
+.error {
+	color: #aa081e;
+	font-size: 1rem;
+	text-align: center;
+	grid-column: 2 / span 1;
+}
+
+@media screen and (min-width: 768px) {
+	.form-fields-grid {
+		display: grid;
+		grid-template-columns: 12rem 25rem 2rem;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.requested-label {
+		align-self: baseline;
+		justify-self: end;
+	}
+}
+
+.error-message {
+	max-width: 65%;
+	justify-self: right;
+	color: #aa081e;
+	font-size: 1rem;
+}
+
+.center {
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.message {
+	font-size: 1.5rem;
+	color: #aa081e;
+	margin-top: 5rem;
+}
+
+.error__listItems{
+
+}
