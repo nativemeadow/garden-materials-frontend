@@ -3,19 +3,15 @@ import { CSSTransition } from 'react-transition-group';
 import { AuthContext } from '../../../shared/context/auth-context';
 import configData from '../../../config.json';
 import { useHttpClient } from '../../../shared/hooks/use-httpClient';
-import { useForm } from '../../../shared/hooks/form-hook';
-import SimpleInput from '../../../shared/components/FormElements/SimpleInput';
-import { VALIDATOR_REQUIRE } from '../../../shared/util/validators';
-import { statesProvinces } from '../../../shared/counties-locals/location-lookup';
 import useOrders from '../../../zustand/userOrders';
+import useCheckoutSteps from '../../../zustand/checkoutSteps';
 
 import { User } from '../../../shared/interfaces/user';
 import classes from './customer-address.module.css';
 
-import { manualAddress, pickup } from '../../../shared/interfaces/customerInfo';
-
 import { useCheckoutData } from '../checkout';
-import { is } from 'immer/dist/internal';
+import { ManualAddress } from './ManualAddress';
+import { PickupOption } from './PickupOption';
 
 type FormInput = Omit<
 	User,
@@ -27,188 +23,6 @@ type serverResponse = {
 	user: FormInput[];
 };
 
-const manualDeliveryAddress = {
-	name: { value: '', isValid: false },
-	address1: { value: '', isValid: false },
-	address2: { value: '', isValid: false },
-	city: { value: '', isValid: false },
-	postal_code: { value: '', isValid: false },
-	state_province: { value: '', isValid: false },
-	country: { value: '', isValid: false },
-};
-
-const ManualAddress = (manualAddress: manualAddress) => {
-	const [formState, inputHandler] = useForm(manualDeliveryAddress, false);
-	const { setManualAddress } = useOrders();
-
-	useEffect(() => {
-		setManualAddress({
-			name: formState.inputs.name.value,
-			address: `${formState.inputs.address1.value} ${formState.inputs.address2.value}`,
-			city: formState.inputs.city.value,
-			postal_code: formState.inputs.postal_code.value,
-			state_province: formState.inputs.state_province.value,
-			country: 'USA',
-		});
-	}, [formState.inputs, setManualAddress]);
-
-	return (
-		<div className={classes['manual-address']}>
-			<SimpleInput
-				id='name'
-				name='name'
-				type='text'
-				label={'Name'}
-				value={formState.inputs.name.value}
-				onInput={inputHandler}
-				validators={[VALIDATOR_REQUIRE()]}
-				parentStyles={classes}
-				initialIsValid={false}
-				errorText='Please enter name for address.'
-				placeholder='Name'
-				cssField={classes['deliver-to-name']}
-				cssErrorWrapper={'col-start-1'}
-			/>
-
-			<div className='md:flex gap-5 w-full'>
-				<SimpleInput
-					id='address1'
-					name='address1'
-					type='text'
-					label={'Address Line One'}
-					value={formState.inputs.address1.value}
-					onInput={inputHandler}
-					validators={[VALIDATOR_REQUIRE()]}
-					parentStyles={classes}
-					initialIsValid={false}
-					errorText='Please enter address.'
-					placeholder='Address Line One'
-					cssErrorWrapper={'col-start-1'}
-				/>
-
-				<SimpleInput
-					id='address2'
-					name='address2'
-					type='text'
-					label={'Address Line Two'}
-					value={formState.inputs.address2.value}
-					onInput={inputHandler}
-					validators={[]}
-					initialIsValid={false}
-					parentStyles={classes}
-					errorText='Please enter address.'
-					placeholder='Address Line Two'
-					cssErrorWrapper={'col-start-1'}
-				/>
-			</div>
-			<div className='md:flex gap-5 w-full'>
-				<SimpleInput
-					id='city'
-					name='city'
-					type='text'
-					label={'City'}
-					value={formState.inputs.city.value}
-					onInput={inputHandler}
-					validators={[VALIDATOR_REQUIRE()]}
-					initialIsValid={false}
-					parentStyles={classes}
-					errorText='Please enter city.'
-					placeholder='City'
-					cssErrorWrapper={'col-start-1'}
-				/>
-
-				<div
-					className={`${classes['deliver-to-field']} ${classes['deliver-to-state-list']} s:mb-4`}>
-					<label
-						className={`${classes['deliver-to-field-label']} ${classes['form-field-label']}`}
-						htmlFor='state_province'>
-						State / Province
-					</label>
-					<select
-						className={`${classes['deliver-to-state-field']} mt-2`}
-						id='state_province'
-						onChange={inputHandler}
-						value={formState.inputs.state_province?.value}
-						name='state_province'>
-						{statesProvinces[0].states.map((state, index) => {
-							return (
-								<option key={index} value={state.abbreviation}>
-									{state.name}
-								</option>
-							);
-						})}
-					</select>
-				</div>
-				<SimpleInput
-					id='postal_code'
-					name='postal_code'
-					type='text'
-					label={'Postal Code'}
-					value={formState.inputs.postal_code.value}
-					onInput={inputHandler}
-					validators={[VALIDATOR_REQUIRE()]}
-					initialIsValid={false}
-					parentStyles={classes}
-					errorText='Please enter postal code.'
-					placeholder='Postal Code'
-					cssErrorWrapper={'col-start-1'}
-				/>
-			</div>
-		</div>
-	);
-};
-
-const PickupOption = (pickupOptions: pickup) => {
-	const { pickupTime, pickupDate, setPickupDate, setPickupTime } =
-		useOrders();
-
-	return (
-		<div className='flex flex-col gap-2'>
-			<div className={''}>
-				<h3 className={'text-base font-bold'}>Store Hours</h3>
-			</div>
-			<div className={'flex flex-col gap-2'}>
-				<div className={'flex flex-col gap-1'}>
-					<p className={classes['pickup-option-body-subtitle']}>
-						Mon-Fri: 7:00am - 3:00pm
-					</p>
-					<p>Sat-Sun: Closed</p>
-					<p>
-						Pickup date/time must be 1 hour later than the current
-						time.
-					</p>
-				</div>
-				<div className={'flex flex-col gap-2'}>
-					<p className={'text-base font-bold'}>Pickup Date:</p>
-					<input
-						id='pickup_date'
-						type='date'
-						name='pickup_date'
-						value={pickupDate}
-						onChange={(
-							event: React.ChangeEvent<HTMLInputElement>
-						) => {
-							setPickupDate(event.target.value);
-						}}
-					/>
-					<p className={'text-base font-bold'}>Pickup Time:</p>
-					<input
-						id='pickup_time'
-						type='time'
-						name='pickup_time'
-						value={pickupTime}
-						onChange={(
-							event: React.ChangeEvent<HTMLInputElement>
-						) => {
-							setPickupTime(event.target.value);
-						}}
-					/>
-				</div>
-			</div>
-		</div>
-	);
-};
-
 function CustomerAddress() {
 	const auth = useContext(AuthContext);
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -217,12 +31,14 @@ function CustomerAddress() {
 	const [addressIdx, setAddressIdx] = useState(0);
 	const [hasError, setHasError] = useState<string | null>(null);
 	let { addressId, manualAddress, pickup } = useCheckoutData();
+	const { back, next, backStep, nextStep } = useCheckoutSteps();
 	const {
 		isDelivery,
 		isPickup,
-		// setIsDelivery,
-		// isManualAddress,
-		// setIsManualAddress,
+		setIsDelivery,
+		isManualAddress,
+		setIsManualAddress,
+		setIsPickup,
 		setDeliveryAddressId,
 	} = useOrders();
 
@@ -265,6 +81,8 @@ function CustomerAddress() {
 		const val = event.target.value;
 		console.log('delivery instructions:', val);
 		setPickupState(val);
+		setIsManualAddress(val === 'manual');
+		setIsPickup(val === 'pickup');
 	};
 
 	const handleAddressSelection = (

@@ -16,6 +16,8 @@ const getOrderUrl = (action: string): string => {
 			return `${url}/createOrder`;
 		case 'update':
 			return `${url}/updateOrder`;
+		case 'putCustomerOrder':
+			return `${url}/updateCustomerInfo`;
 		case 'delete':
 			return `${url}/deleteOrder`;
 		default:
@@ -38,22 +40,40 @@ const useManageOrders = () => {
 		};
 	};
 
-	const get = async (token: boolean | null) => {
-		return await httpFetch(
-			getOrderUrl('get'),
-			'GET',
-			null,
-			getHeaders(token)
-		);
+	const updateCustomerOrder = async () => {
+		const action = 'putCustomerOrder';
+		const method = 'PATCH';
+		const body = JSON.stringify({
+			address_id: orders.deliveryAddressId,
+			manual_address: orders.manualAddress,
+			// isManualAddress: orders.isManualAddress,
+			// isPickup: orders.isPickup,
+			pickup_date: orders.pickupDate,
+			pickup_time: orders.pickupTime,
+		});
+		try {
+			const data: ServerResponse = await httpFetch(
+				getOrderUrl(action),
+				method,
+				body,
+				getHeaders(auth.token)
+			);
+			return data;
+		} catch (error: any) {
+			console.error(error);
+			throw new Error(error.message);
+		}
 	};
-
-	const updateOrder = async (order: any) => {};
 
 	const setOrderDetails = (order: any) => {
 		orders.setDeliveryInstructions(order.delivery_instructions);
 		orders.setRequestedDeliveryDate(order.requested_delivery_date);
 		orders.setOrderDate(order.order_date);
 		orders.setPurchaseOrder(order.purchase_order);
+		orders.setPickupDate(order.pickup_date);
+		orders.setPickupTime(order.pickup_time);
+		orders.setManualAddress(order.manual_address);
+
 		window.localStorage.setItem(
 			'usersOrder',
 			JSON.stringify({
@@ -65,17 +85,35 @@ const useManageOrders = () => {
 				purchase_order: order.purchase_order
 					? order.purchase_order
 					: '',
+				pickup_date: order.pickup_date ? order.pickup_date : '',
+				pickup_time: order.pickup_time ? order.pickup_time : '',
+				manual_address: order.manual_address
+					? order.manual_address
+					: '',
 			})
 		);
 	};
 
-	const setDeliveryInstructions = async (
-		deliveryInstructions: string,
-		requestedDeliveryDate: string,
-		po?: string
-	) => {};
+	const updateOrderDetail = (name: string, value: string) => {
+		let savedOrders =
+			window.localStorage.getItem('usersOrder') &&
+			JSON.parse(window.localStorage.getItem('usersOrder') as string);
+		if (savedOrders) {
+			savedOrders[name] = value;
+			window.localStorage.setItem(
+				'usersOrder',
+				JSON.stringify(savedOrders)
+			);
+		} else {
+			savedOrders = { name: value };
+			window.localStorage.setItem(
+				'usersOrder',
+				JSON.stringify(savedOrders)
+			);
+		}
+	};
 
-	return { setOrderDetails, setDeliveryInstructions };
+	return { setOrderDetails, updateOrderDetail, updateCustomerOrder };
 };
 
 export default useManageOrders;

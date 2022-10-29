@@ -16,8 +16,6 @@ export type addressContextType = {
 	addressId?: string;
 	manualAddress: manualAddress;
 	pickup: pickup;
-	// addressHandler?: () => void;
-	// pickupHandler?: () => void;
 };
 
 export const initialAddressInfo: addressContextType = {
@@ -34,6 +32,4 @@ export const initialAddressInfo: addressContextType = {
 		date: '',
 		time: '',
 	},
-	// addressHandler: () => {},
-	// pickupHandler: () => {},
 };

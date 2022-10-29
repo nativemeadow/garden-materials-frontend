@@ -98,6 +98,15 @@
 	background-color: #aa081e;
 }
 
+.next:disabled,
+.next:hover:disabled,
+.next:active:disabled {
+	background: #ccc;
+	color: #979797;
+	border-color: #ccc;
+	cursor: not-allowed;
+}
+
 .message {
 	border: 1px solid #faebcc;
 	padding: 15px;

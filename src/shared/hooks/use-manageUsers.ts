@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import httpFetch from '../../shared/http/http-fetch';
 import { actionIf } from '../../shared/hooks/form-hook';
 import configData from '../../config.json';
@@ -25,6 +25,11 @@ export const useManageUsers = () => {
 		if (apiPath === '/auth/signup') {
 			newUserInfo.type = '1';
 			newUserInfo.customer_type = '1';
+		}
+
+		if (apiPath === '/auth/guestUser/createGuestUser') {
+			newUserInfo.type = '2';
+			newUserInfo.customer_type = '2';
 		}
 
 		const headers = { 'Content-Type': 'application/json' };

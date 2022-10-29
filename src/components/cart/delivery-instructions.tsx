@@ -1,7 +1,8 @@
-import React, { SetStateAction, Dispatch } from 'react';
+import React from 'react';
 import Modal from '../../shared/components/UIElements/Modal';
 import Button from '../../shared/components/FormElements/SimpleButton';
 import useOrders from '../../zustand/userOrders';
+import useManageOrders from '../../shared/hooks/use-manageOrders';
 
 import classes from './delivery-instructions.module.css';
 
@@ -15,6 +16,7 @@ const DeliveryInstructions = ({
 	addDeliveryCommentHandler: any;
 }) => {
 	const userOrders = useOrders((state) => state);
+	const manageOrders = useManageOrders();
 
 	const closeDeliveryComments = () => {
 		setShowDeliveryComments(false);
@@ -22,6 +24,11 @@ const DeliveryInstructions = ({
 
 	const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		userOrders.setDeliveryInstructions(event.target.value);
+	};
+
+	const onBlurHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+		userOrders.setDeliveryInstructions(event.target.value);
+		manageOrders.updateOrderDetail(event.target.name, event.target.value);
 	};
 
 	return (
@@ -52,7 +59,8 @@ const DeliveryInstructions = ({
 						rows={10}
 						value={userOrders.deliveryInstructions}
 						onChange={onChangeHandler}
-						name='store_comments'></textarea>
+						onBlur={onBlurHandler}
+						name='delivery_instructions'></textarea>
 				</div>
 			</Modal>
 		</div>

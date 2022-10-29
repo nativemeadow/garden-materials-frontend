@@ -3,21 +3,24 @@ import configData from '../../config.json';
 import useOrders from '../../zustand/userOrders';
 import useShoppingCart from '../../zustand/shoppingCart';
 import DeliveryInstructions from './delivery-instructions';
+import useManageOrders from '../../shared/hooks/use-manageOrders';
+import { formatDate } from '../../shared/util/date-utils';
 
 import classes from './shopping-cart.module.css';
 import './shopping-cart.css';
 
-function formateDate(date: string) {
-	if (date.length === 0) {
-		return date;
-	}
-	const newData = new Date(date);
-	return newData.toISOString().split('T')[0];
-}
+// function formateDate(date: string) {
+// 	if (date.length === 0) {
+// 		return date;
+// 	}
+// 	const newData = new Date(date);
+// 	return newData.toISOString().split('T')[0];
+// }
 
 export default function DeliveryPickupOption() {
 	const shoppingCart = useShoppingCart((state) => state);
 	const userOrders = useOrders((state) => state);
+	const manageOrders = useManageOrders();
 	const { hasDeliveryInstructions, hasRequestedDeliveryDate } = useOrders();
 
 	const [showDeliveryComments, setShowDeliveryComments] = useState(false);
@@ -40,6 +43,12 @@ export default function DeliveryPickupOption() {
 	const handleDeliveryDate = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const deliveryDate = event.target.value;
 		userOrders.setRequestedDeliveryDate(deliveryDate);
+	};
+
+	const onBlurDeliveryDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const deliveryDate = event.target.value;
+		userOrders.setRequestedDeliveryDate(deliveryDate);
+		manageOrders.updateOrderDetail(event.target.name, deliveryDate);
 	};
 
 	return (
@@ -69,11 +78,12 @@ export default function DeliveryPickupOption() {
 							<input
 								className={classes['requested__delivery-date']}
 								type='date'
-								name='delivery-date'
-								value={formateDate(
+								name='requested_delivery_date'
+								value={formatDate(
 									userOrders.requestedDeliveryDate
 								)}
 								onChange={handleDeliveryDate}
+								onBlur={onBlurDeliveryDate}
 								disabled={shoppingCart.cartIsEmpty()}
 							/>
 						</div>

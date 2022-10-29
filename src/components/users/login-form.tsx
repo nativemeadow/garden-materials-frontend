@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../shared/context/auth-context';
-import httpFetch from '../../shared/http/http-fetch';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { formatError } from '../../shared/util/format-error';
 import { Items } from '../../shared/interfaces/items';
-import configData from '../../config.json';
 
 import SimpleButton from '../../shared/components/FormElements/SimpleButton';
 import SimpleInput from '../../shared/components/FormElements/SimpleInput';
@@ -59,8 +57,7 @@ export default function LoginForm(props: Props) {
 					responseData.lastName,
 					responseData.token
 				);
-				props.loadCart &&
-					props.loadCart(responseData.token, responseData.cart);
+				props.loadCart?.(responseData.token, responseData.cart);
 				if (responseData.orders) {
 					setOrderDetails(responseData.orders);
 				}

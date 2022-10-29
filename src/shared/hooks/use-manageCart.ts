@@ -73,6 +73,13 @@ const useManageCart = () => {
 		}
 	};
 
+	const loadUnknownUserCart = async () => {
+		const items = localStorage.getItem('order')
+			? (JSON.parse(localStorage.getItem('order')!) as Items[])
+			: [];
+		shoppingCart.loadCart(items);
+	};
+
 	/**
 	 * Function called when the user first login in the app. Given the user's token it will fetch the cart items from the server.
 	 * 	 If the is a current cart in local storage it will merge the cart items with the cart items from the server.
@@ -293,7 +300,7 @@ const useManageCart = () => {
 		return newCartItems;
 	};
 
-	return { loadCart, add, remove, update, get };
+	return { loadCart, loadUnknownUserCart, add, remove, update, get };
 };
 
 export default useManageCart;

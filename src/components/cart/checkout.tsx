@@ -1,23 +1,20 @@
-import React, {
-	useState,
-	useEffect,
-	useReducer,
-	useContext,
-	useRef,
-} from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import {
 	Outlet,
 	useOutletContext,
 	useLocation,
 	useNavigate,
 } from 'react-router-dom';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { formatError } from '../../shared/util/format-error';
+import { AuthContext } from '../../shared/context/auth-context';
 import useCheckoutSteps from '../../zustand/checkoutSteps';
 import {
-	manualAddress,
-	pickup,
 	addressContextType,
 	initialAddressInfo,
 } from '../../shared/interfaces/customerInfo';
+import useManageOrders from '../../shared/hooks/use-manageOrders';
+import useOrders from '../../zustand/userOrders';
 
 import classes from './checkout.module.css';
 
@@ -45,18 +42,44 @@ export function useCheckoutData() {
 }
 
 const Checkout = () => {
+	const auth = useContext(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { back, next, backStep, nextStep } = useCheckoutSteps();
+
 	const [state, dispatch] = useReducer(reducer, initialState);
+	// const { isPickup, isDelivery } = useOrders();
 	const [addressInfo, setAddressInfo] =
 		useState<addressContextType>(initialAddressInfo);
 	// const saveNewCustomerRef = useRef(null);
+	const { updateCustomerOrder } = useManageOrders();
+	const [error, setError] = useState<string | null>(null);
+	const { isPickup, isDelivery } = useOrders();
+	//const checkoutNav = checkoutNavigation(isPickup);
+	const {
+		back,
+		next,
+		backStep,
+		nextStep,
+		setPickup,
+		setCurrentStep,
+		currentNavigation,
+	} = useCheckoutSteps();
 
 	useEffect(() => {
-		backStep('/shopping-cart');
-		nextStep('/checkout/shipping-delivery');
-	}, []);
+		setPickup(isPickup);
+		setCurrentStep(state.step);
+		const { backNav, nextNav } = currentNavigation();
+		backStep(backNav);
+		nextStep(nextNav);
+	}, [
+		backStep,
+		currentNavigation,
+		isPickup,
+		nextStep,
+		setCurrentStep,
+		setPickup,
+		state.step,
+	]);
 
 	useEffect(() => {
 		dispatch({ type: location.pathname, payload: location.pathname });
@@ -67,12 +90,31 @@ const Checkout = () => {
 		navigate(back);
 	};
 
-	const onNext = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const onNext = async (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
+		const step = getStep();
+		let data = null;
+		let isError = false;
 
-		console.log(getStep());
+		if (step === 'customer-info') {
+			data = await updateDatabase();
+			if (data?.message.includes('Error')) {
+				setError(data.message);
+				isError = true;
+			}
+		}
 
-		navigate(next);
+		if (!isError && next) {
+			navigate(next);
+		}
+	};
+
+	const updateDatabase = async () => {
+		try {
+			return await updateCustomerOrder();
+		} catch (err: any) {
+			setError(err);
+		}
 	};
 
 	function getStep() {
@@ -96,6 +138,10 @@ const Checkout = () => {
 
 	return (
 		<section className='page_default'>
+			<ErrorModal
+				error={formatError(error, classes.error__listItems)}
+				onClear={() => setError(null)}
+			/>
 			<div className={classes.checkout}>
 				<div
 					className={`${classes.checkout_step} ${
@@ -156,7 +202,8 @@ const Checkout = () => {
 				</button>
 				<button
 					className={`${classes.next} inline-flex justify-center items-center`}
-					onClick={onNext}>
+					onClick={onNext}
+					disabled={!auth.isLoggedIn}>
 					Continue
 				</button>
 			</div>

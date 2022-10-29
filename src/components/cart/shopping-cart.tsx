@@ -16,6 +16,7 @@ import classes from './shopping-cart.module.css';
 
 import PickupOption from './pickup-option';
 import DeliveryOption from './delivery-option';
+import { formatDate } from '../../shared/util/date-utils';
 import './shopping-cart.css';
 
 const dollarUSLocale = Intl.NumberFormat('en-US');
@@ -37,7 +38,7 @@ function calculateCost(
 const ShoppingCart = () => {
 	const [pickupState, setPickupState] = useState('');
 	const { remove, update } = useManageCart();
-	const { setOrderDetails } = useManageOrders();
+	const { setOrderDetails, updateOrderDetail } = useManageOrders();
 
 	const auth = useContext(AuthContext);
 	const { loadCart, updateItem, removeItem } = useShoppingCart();
@@ -106,6 +107,23 @@ const ShoppingCart = () => {
 	const checkoutHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
+		const order = {
+			userId: auth.userId,
+			delivery_instructions: userOrders.deliveryInstructions,
+			purchase_order: userOrders.purchaseOrder,
+			is_pickup: userOrders.isPickup ? 1 : 0, // 1 = true, 0 = false
+			is_delivery: userOrders.isDelivery ? 1 : 0, // 1 = true, 0 = false
+			requested_delivery_date: formatDate(
+				userOrders.requestedDeliveryDate
+			),
+			isPickup: userOrders.isPickup,
+		};
+
+		setOrderDetails({
+			...order,
+			order_date: userOrders.orderDate,
+		});
+
 		if (!auth.isLoggedIn) {
 			navigate('/checkout');
 			return;
@@ -117,18 +135,6 @@ const ShoppingCart = () => {
 		};
 
 		try {
-			const order = {
-				userId: auth.userId,
-				delivery_instructions: userOrders.deliveryInstructions,
-				purchase_order: userOrders.purchaseOrder,
-				requested_delivery_date: userOrders.requestedDeliveryDate,
-			};
-
-			setOrderDetails({
-				...order,
-				order_date: userOrders.orderDate,
-			});
-
 			const response = await httpFetch(
 				`${configData.BACKEND_URL}/orders/createOrder`,
 				'POST',
@@ -151,6 +157,11 @@ const ShoppingCart = () => {
 			return;
 		}
 		return unitsArray.includes(unit) ? '0.5' : '1';
+	};
+
+	const onPurchaseOrderBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+		const purchaseOrder = event.target.value;
+		updateOrderDetail(event.target.name, purchaseOrder);
 	};
 
 	return (
@@ -367,7 +378,7 @@ const ShoppingCart = () => {
 												${classes['shopping-cart__checkout-options--po-option--text']} ${classes['purchase_order']}
 												]}
 											`}
-											name='purchase-order'
+											name='purchase_order'
 											type='text'
 											size={10}
 											value={userOrders.purchaseOrder}
@@ -378,6 +389,7 @@ const ShoppingCart = () => {
 													event.target.value
 												);
 											}}
+											onBlur={onPurchaseOrderBlur}
 										/>
 									</div>
 								</div>

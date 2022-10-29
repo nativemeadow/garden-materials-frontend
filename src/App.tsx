@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import { QueryClientProvider, QueryClient } from 'react-query';
@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 // import client from './react-query-client';
 import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/auth-hook';
+import useManageCart from './shared/hooks/use-manageCart';
 
 import CategoryDetail from './components/product-categories/category-detail';
 import CategoryList from './components/product-categories/category-list';
@@ -35,6 +36,7 @@ import TestGetImages from './components/product-categories/test-get-images';
 const queryClient = new QueryClient();
 
 function App() {
+	const { loadUnknownUserCart } = useManageCart();
 	const {
 		userId,
 		username,
@@ -46,6 +48,10 @@ function App() {
 		logout,
 		updateUserSession,
 	} = useAuth();
+
+	useEffect(() => {
+		loadUnknownUserCart();
+	}, []);
 
 	return (
 		<>

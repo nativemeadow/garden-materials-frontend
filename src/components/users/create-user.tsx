@@ -18,12 +18,14 @@ import {
 } from '../../shared/util/validators';
 import { formatError } from '../../shared/util/format-error';
 import { useManageUsers } from '../../shared/hooks/use-manageUsers';
+import useManageOrders from '../../shared/hooks/use-manageOrders';
+
+import { Items } from '../../shared/interfaces/items';
+import { useForm } from '../../shared/hooks/form-hook';
+import { formInputs } from './initial-formInput';
 
 import classes from './create-user.module.css';
 import './create-user.css';
-
-import { useForm } from '../../shared/hooks/form-hook';
-import { formInputs } from './initial-formInput';
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -36,6 +38,7 @@ interface Props {
 	guestUser?: boolean;
 	submitText?: string;
 	nextNav?: string;
+	loadCart?: (token: boolean | null, itemsList?: Items[]) => void;
 	overrideCSS?: { readonly [key: string]: string };
 	containerClass?: string;
 	credentialsClass?: string;
@@ -53,6 +56,7 @@ const CreateUser = forwardRef(
 			guestUser = false,
 			submitText,
 			nextNav,
+			loadCart,
 			overrideCSS,
 			containerClass,
 			credentialsClass,
@@ -70,6 +74,7 @@ const CreateUser = forwardRef(
 			? regErrorWrapperClass
 			: 'col-start-2';
 		const { userHandler } = useManageUsers();
+		const { setOrderDetails } = useManageOrders();
 
 		useEffect(() => {
 			if (atCheckout && guestUser) {
@@ -97,14 +102,25 @@ const CreateUser = forwardRef(
 		const createUserHandler = async () => {
 			console.log('Create User');
 
+			let path = '/auth/signup';
+			if (atCheckout && !showCredentials) {
+				path = '/auth/guestUser/createGuestUser';
+				guestUser = true;
+			}
+
 			try {
-				const responseData: any = await userHandler(
-					formState,
-					'/auth/signup'
-				);
+				const responseData: any = await userHandler(formState, path);
 				console.log(responseData);
 				if (!responseData.message) {
-					navigate(`/login/true/${responseData.success}`);
+					if (guestUser) {
+						loadCart?.(responseData.token, responseData.cart);
+						if (responseData.orders) {
+							setOrderDetails(responseData.orders);
+						}
+						navigate('/checkout');
+					} else {
+						navigate(`/login/true/${responseData.success}`);
+					}
 				} else {
 					setError(responseData.message);
 				}
@@ -248,7 +264,11 @@ const CreateUser = forwardRef(
 							override={`${classes['reg-login__button']} ${classes.button}`}
 							type='submit'
 							disabled={!formState.isValid}>
-							Continue
+							{atCheckout
+								? showCredentials
+									? 'Create Your Account'
+									: 'Continue as Guest'
+								: 'Continue'}
 						</SimpleButton>
 					</form>
 				</div>
