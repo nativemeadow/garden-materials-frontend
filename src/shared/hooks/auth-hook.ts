@@ -111,10 +111,12 @@ export const useAuth = () => {
 		orders.reset();
 	}, []);
 
+	// useEffect to check if token is expired nad logout if it is
 	useEffect(() => {
 		if (token && tokenExpirationDate) {
 			const remainingTime =
 				tokenExpirationDate.getTime() - new Date().getTime();
+			// running the timer on the remaining time
 			logoutTimer = setTimeout(logout, remainingTime);
 		} else {
 			clearTimeout(logoutTimer);

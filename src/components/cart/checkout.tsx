@@ -50,36 +50,17 @@ const Checkout = () => {
 	// const { isPickup, isDelivery } = useOrders();
 	const [addressInfo, setAddressInfo] =
 		useState<addressContextType>(initialAddressInfo);
-	// const saveNewCustomerRef = useRef(null);
 	const { updateCustomerOrder } = useManageOrders();
 	const [error, setError] = useState<string | null>(null);
-	const { isPickup, isDelivery } = useOrders();
-	//const checkoutNav = checkoutNavigation(isPickup);
-	const {
-		back,
-		next,
-		backStep,
-		nextStep,
-		setPickup,
-		setCurrentStep,
-		currentNavigation,
-	} = useCheckoutSteps();
+	const { isPickup } = useOrders();
+	const { back, next, setPickup, setCurrentStep, currentNavigation } =
+		useCheckoutSteps();
 
 	useEffect(() => {
 		setPickup(isPickup);
 		setCurrentStep(state.step);
-		const { backNav, nextNav } = currentNavigation();
-		backStep(backNav);
-		nextStep(nextNav);
-	}, [
-		backStep,
-		currentNavigation,
-		isPickup,
-		nextStep,
-		setCurrentStep,
-		setPickup,
-		state.step,
-	]);
+		currentNavigation();
+	}, [currentNavigation, isPickup, setCurrentStep, setPickup, state.step]);
 
 	useEffect(() => {
 		dispatch({ type: location.pathname, payload: location.pathname });

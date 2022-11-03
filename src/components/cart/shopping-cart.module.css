@@ -327,6 +327,8 @@ p {
 	margin-left: 0.5rem;
 }
 
+.checkout__pickup-alert {}
+
 @media screen and (min-width: 830px) {
 	.shopping-cart__grid {
 		grid-template-columns: repeat(1, auto);

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useNavigate } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import { Items } from '../../shared/interfaces/items';
 // import Image from '../../shared/components/UIElements/Images';
-import { round } from '../../shared/util/math-utilities';
 import useManageCart from '../../shared/hooks/use-manageCart';
 import useManageOrders from '../../shared/hooks/use-manageOrders';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -14,26 +13,12 @@ import httpFetch from '../../shared/http/http-fetch';
 import configData from '../../config.json';
 import classes from './shopping-cart.module.css';
 
+import ShoppingCartItems from './shopping-cart-items';
 import PickupOption from './pickup-option';
 import DeliveryOption from './delivery-option';
 import { formatDate } from '../../shared/util/date-utils';
+import CalCost from './calculate-cost';
 import './shopping-cart.css';
-
-const dollarUSLocale = Intl.NumberFormat('en-US');
-function calculateCost(
-	quantity: number,
-	price: number,
-	fixedDec: boolean
-): number;
-function calculateCost(quantity: number, price: number): string;
-function calculateCost(
-	quantity: number,
-	price: number,
-	fixedDec: boolean = false
-): string | number {
-	const total: number = quantity * price;
-	return fixedDec ? total.toFixed(2) : total;
-}
 
 const ShoppingCart = () => {
 	const [pickupState, setPickupState] = useState('');
@@ -46,6 +31,7 @@ const ShoppingCart = () => {
 	const userOrders = useOrders((state) => state);
 	const navigate = useNavigate();
 	const { setIsPickup, setIsDelivery } = useOrders();
+	const { dollarUSLocale } = CalCost();
 
 	useEffect(() => {
 		const cart = localStorage.getItem('order');
@@ -151,10 +137,10 @@ const ShoppingCart = () => {
 		navigate('/checkout');
 	};
 
-	const setTheStep = (unit: string | undefined) => {
+	const setTheStep = (unit: string | undefined): string => {
 		const unitsArray = ['lbs', 'ton', 'tons', 'yds', 'yds', 'ft', 'cu ft'];
 		if (!unit) {
-			return;
+			return '';
 		}
 		return unitsArray.includes(unit) ? '0.5' : '1';
 	};
@@ -171,133 +157,12 @@ const ShoppingCart = () => {
 				<div className={classes['shopping-cart']}>
 					<div className={classes['shopping-cart__grid']}>
 						<form name='checkout' onSubmit={checkoutHandler}>
-							{shoppingCart.Items.map((order, key) => {
-								return (
-									<div
-										key={key}
-										className={
-											classes[
-												'shopping-cart__order--items'
-											]
-										}>
-										<div
-											className={
-												classes[
-													'shopping-cart__order--items-image-title'
-												]
-											}>
-											<Link
-												to={`/category/${order.category_id}/product/${order.product_id}/sku/${order.sku}`}>
-												{order.image ? (
-													<img
-														src={`${configData.IMAGES}/products/${order.image}`}
-														alt={
-															order.title !==
-															undefined
-																? order.title
-																: ''
-														}
-													/>
-												) : (
-													// <Image
-													// 	src={[
-													// 		`${configData.IMAGES}/products/${order.image}`,
-													// 		`${configData.IMAGES}/products/default_image.png`,
-													// 	]}
-													// 	alt={
-													// 		order.title !==
-													// 		undefined
-													// 			? order.title
-													// 			: ''
-													// 	}
-													// />
-													<img
-														src={`${configData.IMAGES}/products/default_image.png`}
-														alt={order.title}
-													/>
-												)}
-
-												<p
-													className={
-														classes[
-															'shopping-cart__order--items-title'
-														]
-													}>
-													{order.title}
-												</p>
-											</Link>
-										</div>
-
-										<div
-											className={
-												classes[
-													'shopping-cart__order--item-cell'
-												]
-											}>
-											<div>{order.sku}</div>
-											{order.color && (
-												<div>{order.color}</div>
-											)}
-										</div>
-										<div
-											className={
-												classes[
-													'shopping-cart__order--item-cell'
-												]
-											}>
-											${order.price.toFixed(2)}
-										</div>
-										<div
-											className={`${classes['shopping-cart__order--item-input-container']}`}>
-											<input
-												type='number'
-												data-order-index={key}
-												data-item-id={order.item_id}
-												min='1'
-												step={setTheStep(order.unit)}
-												name={`cart_qty_${key}`}
-												value={order.quantity}
-												disabled={false}
-												onChange={onQuantityChange}
-												className={
-													classes[
-														'shopping-cart__order--quantity-input'
-													]
-												}
-											/>
-											<p>{order.unit}</p>
-										</div>
-										<div
-											className={
-												classes[
-													'shopping-cart__order--item-total-cost'
-												]
-											}>
-											<p>
-												$
-												{dollarUSLocale.format(
-													calculateCost(
-														order.quantity,
-														order.price,
-														true
-													)
-												)}
-											</p>
-											<button
-												className={
-													classes[
-														'shopping-cart__order--item-remove'
-													]
-												}
-												onClick={removeHandler}
-												name={`${key}`}
-												data-item-id={order.item_id}>
-												Remove
-											</button>
-										</div>
-									</div>
-								);
-							})}
+							<ShoppingCartItems
+								items={shoppingCart.Items}
+								setTheStep={setTheStep}
+								onQuantityChange={onQuantityChange}
+								removeHandler={removeHandler}
+							/>
 							<section
 								className={
 									classes['shopping-cart__checkout--section']

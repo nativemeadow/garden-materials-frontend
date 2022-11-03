@@ -2,8 +2,16 @@
 import httpFetch from '../../shared/http/http-fetch';
 import { actionIf } from '../../shared/hooks/form-hook';
 import configData from '../../config.json';
+import { AuthContextIf } from '../../shared/context/auth-context';
 
 export const useManageUsers = () => {
+	const getHeaders = (auth: AuthContextIf) => {
+		return {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${auth.token}`,
+		};
+	};
+
 	const userHandler = async (formState: actionIf, apiPath: string) => {
 		console.log(formState.inputs);
 
@@ -48,5 +56,43 @@ export const useManageUsers = () => {
 		}
 	};
 
-	return { userHandler };
+	const refreshHandler = async (auth: AuthContextIf) => {
+		const headers = getHeaders(auth);
+
+		try {
+			const responseData: any = await httpFetch(
+				`${configData.BACKEND_URL}/auth/refresh`,
+				'POST',
+				null,
+				headers,
+				'include'
+			);
+			console.log(responseData);
+			return responseData;
+		} catch (err) {
+			console.error(`error occurred with refreshUser - ${err}`);
+		}
+	};
+
+	const logoutHandler = async (auth: AuthContextIf) => {
+		const headers = getHeaders(auth); //{ 'Content-Type': 'application/json' };
+
+		try {
+			const responseData: any = await httpFetch(
+				`${configData.BACKEND_URL}/auth/logout`,
+				'POST',
+				null,
+				headers,
+				'include'
+			);
+			console.log(responseData);
+			return responseData;
+		} catch (err) {
+			console.error(`error occurred with logout - ${err}`);
+		}
+	};
+
+	return { userHandler, refreshHandler, logoutHandler };
 };
+
+export default useManageUsers;

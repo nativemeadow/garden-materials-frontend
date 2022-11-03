@@ -73,9 +73,11 @@ const useCheckoutSteps = create<Store>((set, get) => ({
 			currentStep,
 		})),
 	currentNavigation: (): { backNav: string; nextNav: string | null } => {
-		const { currentStep, isPickup } = get();
+		const { currentStep, isPickup, backStep, nextStep } = get();
 		const { steps } = checkoutNavigation(isPickup);
 		const { backNav, nextNav } = steps[currentStep];
+		backStep(backNav);
+		nextStep(nextNav);
 		return { backNav, nextNav };
 	},
 	setPickup: (isPickup: boolean) => set(() => ({ isPickup })),

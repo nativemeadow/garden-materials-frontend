@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../shared/context/auth-context';
 import Button from '../../shared/components/FormElements/SimpleButton';
 import Dropdown from '../../shared/components/UIElements/Dropdown';
+import { useManageUsers } from '../../shared/hooks/use-manageUsers';
 
 import classes from './TopBar.module.css';
 
@@ -10,8 +11,10 @@ const TopBar: React.FC = (props: {}) => {
 	const auth = useContext(AuthContext);
 	const location = useLocation();
 	const navigate = useNavigate();
+	const userManager = useManageUsers(); // custom hook
 
 	const logoutHandler = () => {
+		userManager.logoutHandler(auth);
 		auth.logout();
 		navigate('/login');
 	};
