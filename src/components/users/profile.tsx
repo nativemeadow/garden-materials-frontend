@@ -134,7 +134,8 @@ export default function Profile() {
 				auth.updateUserSession(
 					formState.inputs.first_name.value,
 					formState.inputs.last_name.value,
-					formState.inputs.email.value
+					formState.inputs.email.value,
+					formState.inputs.phone.value
 				);
 				navigate('/user/profile');
 			} else {

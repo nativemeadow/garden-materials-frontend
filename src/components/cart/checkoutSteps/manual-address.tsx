@@ -1,35 +1,73 @@
-import React, { useEffect } from 'react';
-import { useForm } from '../../../shared/hooks/form-hook';
+import React, { useEffect, useState } from 'react';
+import { useForm, formStateIf } from '../../../shared/hooks/form-hook';
 import SimpleInput from '../../../shared/components/FormElements/SimpleInput';
 import { VALIDATOR_REQUIRE } from '../../../shared/util/validators';
 import { statesProvinces } from '../../../shared/counties-locals/location-lookup';
 import useOrders from '../../../zustand/userOrders';
 import classes from './customer-address.module.css';
 import { manualAddress } from '../../../shared/interfaces/customerInfo';
+import TextInput from '../../../shared/components/FormElements/TextInput';
 
 const manualDeliveryAddress = {
 	name: { value: '', isValid: false },
-	address1: { value: '', isValid: false },
-	address2: { value: '', isValid: false },
+	address: { value: '', isValid: false },
 	city: { value: '', isValid: false },
 	postal_code: { value: '', isValid: false },
 	state_province: { value: '', isValid: false },
 	country: { value: '', isValid: false },
 };
-export const ManualAddress = (manualAddress: manualAddress) => {
-	const [formState, inputHandler] = useForm(manualDeliveryAddress, false);
-	const { setManualAddress } = useOrders();
+
+const parseInputs = (inputs: any) => {
+	const newInputs: formStateIf = {};
+	for (const inputId in inputs) {
+		newInputs[inputId] = {
+			value: inputs[inputId],
+			isValid: true,
+		};
+	}
+	return newInputs;
+};
+
+export const ManualAddress = () => {
+	const [formState, inputHandler, setFormData] = useForm(
+		manualDeliveryAddress,
+		false
+	);
+	const { setDeliveryAddress, setManualAddress, setIsManualAddress } =
+		useOrders();
+	const userOrders = useOrders((state) => state);
 
 	useEffect(() => {
 		setManualAddress({
-			name: formState.inputs.name.value,
-			address: `${formState.inputs.address1.value} ${formState.inputs.address2.value}`,
-			city: formState.inputs.city.value,
-			postal_code: formState.inputs.postal_code.value,
-			state_province: formState.inputs.state_province.value,
+			name: formState.inputs.name?.value,
+			address: `${formState.inputs.address?.value}`,
+			city: formState.inputs.city?.value,
+			postal_code: formState.inputs.postal_code?.value,
+			state_province: formState.inputs.state_province?.value,
 			country: 'USA',
 		});
-	}, [formState.inputs, setManualAddress]);
+		setDeliveryAddress({
+			name: formState.inputs.name?.value,
+			address: `${formState.inputs.address?.value}`,
+			city: formState.inputs.city?.value,
+			postal_code: formState.inputs.postal_code?.value,
+			state_province: formState.inputs.state_province?.value,
+			country: 'USA',
+		});
+		setIsManualAddress(true);
+		console.log('update the manual address');
+	}, [
+		formState.inputs,
+		setIsManualAddress,
+		setManualAddress,
+		setDeliveryAddress,
+	]);
+
+	useEffect(() => {
+		console.log('loading manual address: ', userOrders.manualAddress);
+		setFormData(parseInputs(userOrders.manualAddress), true);
+		console.log('formState: ', formState);
+	}, []);
 
 	const changeHandler = (
 		event: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>
@@ -46,7 +84,7 @@ export const ManualAddress = (manualAddress: manualAddress) => {
 				name='name'
 				type='text'
 				label={'Name'}
-				value={formState.inputs.name.value}
+				value={userOrders.manualAddress?.name}
 				onInput={inputHandler}
 				validators={[VALIDATOR_REQUIRE()]}
 				parentStyles={classes}
@@ -57,44 +95,28 @@ export const ManualAddress = (manualAddress: manualAddress) => {
 				cssErrorWrapper={'col-start-1'}
 			/>
 
-			<div className='md:flex gap-5 w-full'>
-				<SimpleInput
-					id='address1'
-					name='address1'
-					type='text'
-					label={'Address Line One'}
-					value={formState.inputs.address1.value}
-					onInput={inputHandler}
-					validators={[VALIDATOR_REQUIRE()]}
-					parentStyles={classes}
-					initialIsValid={false}
-					errorText='Please enter address.'
-					placeholder='Address Line One'
-					cssErrorWrapper={'col-start-1'}
-				/>
+			<SimpleInput
+				id='address'
+				name='address'
+				type='text'
+				label={'Address Line'}
+				value={userOrders.manualAddress?.address}
+				onInput={inputHandler}
+				validators={[VALIDATOR_REQUIRE()]}
+				parentStyles={classes}
+				initialIsValid={false}
+				errorText='Please enter address.'
+				placeholder='Address Line'
+				cssErrorWrapper={'col-start-1'}
+			/>
 
-				<SimpleInput
-					id='address2'
-					name='address2'
-					type='text'
-					label={'Address Line Two'}
-					value={formState.inputs.address2.value}
-					onInput={inputHandler}
-					validators={[]}
-					initialIsValid={false}
-					parentStyles={classes}
-					errorText='Please enter address.'
-					placeholder='Address Line Two'
-					cssErrorWrapper={'col-start-1'}
-				/>
-			</div>
 			<div className='md:flex gap-5 w-full'>
 				<SimpleInput
 					id='city'
 					name='city'
 					type='text'
 					label={'City'}
-					value={formState.inputs.city.value}
+					value={userOrders.manualAddress?.city}
 					onInput={inputHandler}
 					validators={[VALIDATOR_REQUIRE()]}
 					initialIsValid={false}
@@ -115,7 +137,7 @@ export const ManualAddress = (manualAddress: manualAddress) => {
 						className={`${classes['deliver-to-state-field']} mt-2`}
 						id='state_province'
 						onChange={changeHandler}
-						value={formState.inputs.state_province?.value}
+						value={userOrders.manualAddress?.state_province}
 						name='state_province'>
 						{statesProvinces[0].states.map((state, index) => {
 							return (
@@ -131,7 +153,7 @@ export const ManualAddress = (manualAddress: manualAddress) => {
 					name='postal_code'
 					type='text'
 					label={'Postal Code'}
-					value={formState.inputs.postal_code.value}
+					value={userOrders.manualAddress?.postal_code}
 					onInput={inputHandler}
 					validators={[VALIDATOR_REQUIRE()]}
 					initialIsValid={false}

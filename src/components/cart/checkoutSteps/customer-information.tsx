@@ -14,8 +14,8 @@ import { AuthContext } from '../../../shared/context/auth-context';
 import CustomerAddress from './customer-address';
 
 import './customer-information.css';
-import { RegisterNewCustomer } from './RegisterNewCustomer';
-import { LoginUser } from './LoginUser';
+import { RegisterNewCustomer } from './register-new-customer';
+import { LoginUser } from './login-user';
 
 export default function CustomerInformation() {
 	const auth = useContext(AuthContext);

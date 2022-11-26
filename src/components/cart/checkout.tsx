@@ -10,9 +10,10 @@ import { formatError } from '../../shared/util/format-error';
 import { AuthContext } from '../../shared/context/auth-context';
 import useCheckoutSteps from '../../zustand/checkoutSteps';
 import {
-	addressContextType,
-	initialAddressInfo,
-} from '../../shared/interfaces/customerInfo';
+	ServerResponse as customerOrders,
+	customerPickupOptions,
+	customerCheckoutOptions,
+} from '../../shared/interfaces/customer-orders';
 import useManageOrders from '../../shared/hooks/use-manageOrders';
 import useOrders from '../../zustand/userOrders';
 
@@ -37,24 +38,28 @@ function reducer(state: checkoutSteps, action: checkoutAction) {
 	}
 }
 
-export function useCheckoutData() {
-	return useOutletContext<addressContextType>();
-}
-
 const Checkout = () => {
 	const auth = useContext(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const [state, dispatch] = useReducer(reducer, initialState);
-	// const { isPickup, isDelivery } = useOrders();
-	const [addressInfo, setAddressInfo] =
-		useState<addressContextType>(initialAddressInfo);
-	const { updateCustomerOrder } = useManageOrders();
+	// const [addressInfo, setAddressInfo] =
+	// 	useState<addressContextType>(initialAddressInfo);
+	const { updateCustomerOrder, setOrderDetailsFromLocalStorage } =
+		useManageOrders();
 	const [error, setError] = useState<string | null>(null);
-	const { isPickup } = useOrders();
+	const { isPickup, pickupDate, pickupTime } = useOrders();
+
 	const { back, next, setPickup, setCurrentStep, currentNavigation } =
 		useCheckoutSteps();
+
+	console.log(
+		'checkout : Pickup Date: ',
+		pickupDate,
+		'Pickup Time: ',
+		pickupTime
+	);
 
 	useEffect(() => {
 		setPickup(isPickup);
@@ -173,7 +178,8 @@ const Checkout = () => {
 			</div>
 			<p className={classes.message}></p>
 			<div className={`${classes['checkout_form']} w-10/12 m-auto`}>
-				<Outlet context={{ addressInfo }} />
+				<Outlet />
+				{/* <Outlet context={{ addressInfo }} /> */}
 			</div>
 			<div className={classes.buttons}>
 				<button

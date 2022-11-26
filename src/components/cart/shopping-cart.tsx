@@ -19,6 +19,7 @@ import DeliveryOption from './delivery-option';
 import { formatDate } from '../../shared/util/date-utils';
 import CalCost from './calculate-cost';
 import './shopping-cart.css';
+import OrderSummary from './order-summary';
 
 const ShoppingCart = () => {
 	const [pickupState, setPickupState] = useState('');
@@ -30,8 +31,15 @@ const ShoppingCart = () => {
 	const shoppingCart = useShoppingCart((state) => state);
 	const userOrders = useOrders((state) => state);
 	const navigate = useNavigate();
-	const { setIsPickup, setIsDelivery } = useOrders();
+	const { setIsPickup, setIsDelivery, pickupDate, pickupTime } = useOrders();
 	const { dollarUSLocale } = CalCost();
+
+	console.log(
+		'shopping cart : Pickup Date: ',
+		pickupDate,
+		'Pickup Time: ',
+		pickupTime
+	);
 
 	useEffect(() => {
 		const cart = localStorage.getItem('order');
@@ -92,7 +100,7 @@ const ShoppingCart = () => {
 
 	const checkoutHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
+		console.log('Shopping cart checkout button clicked');
 		const order = {
 			userId: auth.userId,
 			delivery_instructions: userOrders.deliveryInstructions,
@@ -103,6 +111,11 @@ const ShoppingCart = () => {
 				userOrders.requestedDeliveryDate
 			),
 			isPickup: userOrders.isPickup,
+			isDelivery: userOrders.isDelivery,
+			items: shoppingCart.Items,
+			pickup_date: formatDate(userOrders.pickupDate),
+			pickup_time: userOrders.pickupTime,
+			manual_address: userOrders.manualAddress,
 		};
 
 		setOrderDetails({
@@ -303,7 +316,7 @@ const ShoppingCart = () => {
 							</section>
 						</form>
 					</div>
-					<div className={classes['shopping-cart__order-subtotal']}>
+					<div className={classes['order-subtotal']}>
 						<h3>SubTotal</h3>
 						<p>
 							${dollarUSLocale.format(shoppingCart.cartTotal())}

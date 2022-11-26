@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import LoginForm from '../../../components/users/login-form';
+import LoginForm from '../../users/login-form';
 import useManageCart from '../../../shared/hooks/use-manageCart';
 import classes from './customer-information.module.css';
 

@@ -27,6 +27,16 @@ const inputReducer = (state: any, action: action) => {
 	}
 };
 
+const initialValue = (props: Props) => {
+	console.log(`${props.label}:`, props.value);
+	const initialValue = {
+		value: props.value,
+		isTouched: false,
+		isValid: props.initialIsValid || false,
+	};
+	return initialValue;
+};
+
 interface Props {
 	id: string;
 	type: string;
@@ -43,12 +53,11 @@ interface Props {
 	cssErrorWrapper?: string;
 }
 
-const SimpleInput = (props: Props) => {
-	const [inputState, dispatch] = useReducer(inputReducer, {
-		value: props.value || '',
-		isTouched: false,
-		isValid: props.initialIsValid || false,
-	});
+const SimpleInput: React.FC<Props> = (props: Props) => {
+	const [inputState, dispatch] = useReducer(
+		inputReducer,
+		initialValue(props)
+	);
 
 	const { id, onInput } = props;
 	const { value, isValid } = inputState;

@@ -1,0 +1,98 @@
+.heading {
+	margin-bottom: 10px;
+	font-family: inherit;
+	font-size: 2rem;
+}
+
+.review-msg {
+	padding: 25px;
+	font-size: 18px;
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	margin-bottom: 20px;
+}
+
+.review h4 {
+	color: #333;
+	font-size: 20px;
+	margin-bottom: 7px;
+}
+
+.order-subtotal {
+	margin-top: 0;
+	min-width: 20%;
+	height: 9rem;
+	background-color: gainsboro;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.order-subtotal h3,
+p {
+	margin: 0;
+}
+
+.shopping-cart {
+	display: flex;
+	flex-direction: column;
+}
+
+.shopping-cart-grid {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: 1fr;
+	max-width: 65%;
+	margin: 0 auto;
+	border-top: gainsboro solid thin;
+}
+
+.summary-title {
+	color: #333;
+	font-weight: 800;
+	font-size: 20px;
+}
+
+.payment_subtotals {
+	border-top: 1px solid #fff;
+	padding-top: 15px;
+	margin-top: 1rem;
+}
+
+.payment_subtotals div,
+.payment_subtotals h6 {
+	padding: 5px 0;
+	color: gray;
+	font-size: 13px;
+	font-weight: 500;
+	border: none;
+	padding: 0 0.5rem;
+}
+
+.payment_subtotals div {
+	text-align: right;
+}
+
+.payment_subtotals h6 {
+	text-align: left;
+}
+
+@media screen and (min-width: 830px) {
+	.shopping-cart-grid {
+		grid-template-columns: repeat(1, auto);
+		grid-template-rows: auto;
+		max-width: 100%;
+		margin: 0;
+		border-top: gainsboro solid thin;
+		margin-top: 3rem;
+	}
+
+	.order-subtotal {
+		margin-top: 0;
+		margin-left: 0;
+		font-weight: 500;
+		font-size: 18px;
+		height: 12rem;
+	}
+}

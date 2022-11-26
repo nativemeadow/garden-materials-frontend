@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import useShoppingCart from '../../zustand/shoppingCart';
+import useManageOrders from '../../shared/hooks/use-manageOrders';
 import userOrders from '../../zustand/userOrders';
 
 let logoutTimer: any;
@@ -13,9 +14,11 @@ export const useAuth = () => {
 	const [email, setEmail] = useState<string | null>(null);
 	const [firstName, setFirstName] = useState<string | null>(null);
 	const [lastName, setLastName] = useState<string | null>(null);
+	const [phone, setPhone] = useState<string | null>(null);
 	const { clearCart } = useShoppingCart();
 	const orders = userOrders((state) => state);
 	const { clearOrders } = userOrders();
+	const { setOrderDetailsFromLocalStorage } = useManageOrders();
 
 	const login = useCallback(
 		(
@@ -24,6 +27,7 @@ export const useAuth = () => {
 			email: string | null,
 			firstName: string | null,
 			lastName: string | null,
+			phone: string | null,
 			token: boolean,
 			expirationDate?: Date | null
 		) => {
@@ -36,6 +40,7 @@ export const useAuth = () => {
 			setLastName(lastName);
 			setUsername(username);
 			setEmail(email);
+			setPhone(phone);
 			setUserId(uid);
 			const tokenExpirationDate =
 				expirationDate ||
@@ -50,10 +55,12 @@ export const useAuth = () => {
 						email,
 						firstName,
 						lastName,
+						phone,
 						token,
 						expiration: tokenExpirationDate.toISOString(),
 					})
 				);
+				setOrderDetailsFromLocalStorage();
 			} catch (err) {
 				console.log(err);
 			}
@@ -69,11 +76,13 @@ export const useAuth = () => {
 		(
 			firstName: string | null,
 			lastName: string | null,
-			email: string | null
+			email: string | null,
+			phone: string | null
 		) => {
 			setEmail(email);
 			setFirstName(firstName);
 			setLastName(lastName);
+			setPhone(phone);
 			try {
 				const currentStorageData = JSON.parse(
 					localStorage.getItem('userData') || '{}'
@@ -85,6 +94,7 @@ export const useAuth = () => {
 						email,
 						firstName,
 						lastName,
+						phone,
 					})
 				);
 			} catch (err) {
@@ -100,6 +110,7 @@ export const useAuth = () => {
 	);
 
 	const logout = useCallback(() => {
+		console.log('logged out. clearing cart and orders');
 		setToken(null);
 		setTokenExpirationDate(null);
 		setUserId(null);
@@ -139,6 +150,7 @@ export const useAuth = () => {
 				storedData.firstName,
 				storedData.lastName,
 				storedData.token,
+				storedData.phone,
 				new Date(storedData.expiration)
 			);
 		}
@@ -161,6 +173,7 @@ export const useAuth = () => {
 		email,
 		firstName,
 		lastName,
+		phone,
 		token,
 		login,
 		logout,

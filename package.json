@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@craco/craco": "^6.4.4",
+		"@react-google-maps/api": "2.7.0",
 		"@reduxjs/toolkit": "^1.8.0",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",
@@ -12,6 +13,7 @@
 		"@types/node": "^16.11.45",
 		"@types/react": "^18.0.15",
 		"@types/react-dom": "^18.0.6",
+		"@types/react-geocode": "^0.2.1",
 		"@types/react-lazy-load-image-component": "^1.5.2",
 		"@types/react-query": "^1.2.9",
 		"@types/react-redux": "^7.1.24",
@@ -22,6 +24,7 @@
 		"html-react-parser": "^1.4.8",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-geocode": "^0.2.3",
 		"react-icons": "^4.4.0",
 		"react-image": "^4.0.3",
 		"react-query": "^3.34.15",
@@ -66,6 +69,7 @@
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",
 		"@tailwindcss/typography": "^0.5.2",
+		"@types/google.maps": "^3.50.5",
 		"@typescript-eslint/eslint-plugin": "^5.30.3",
 		"@typescript-eslint/parser": "^5.30.3",
 		"autoprefixer": "^9",

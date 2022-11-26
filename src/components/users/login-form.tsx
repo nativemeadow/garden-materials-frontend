@@ -55,6 +55,7 @@ export default function LoginForm(props: Props) {
 					responseData.email,
 					responseData.firstName,
 					responseData.lastName,
+					responseData.phone,
 					responseData.token
 				);
 				props.loadCart?.(responseData.token, responseData.cart);

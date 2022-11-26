@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { AuthContext } from '../../../shared/context/auth-context';
 import configData from '../../../config.json';
@@ -9,9 +9,9 @@ import useCheckoutSteps from '../../../zustand/checkoutSteps';
 import { User } from '../../../shared/interfaces/user';
 import classes from './customer-address.module.css';
 
-import { useCheckoutData } from '../checkout';
-import { ManualAddress } from './ManualAddress';
-import { PickupOption } from './PickupOption';
+// import { useCheckoutData } from '../checkout';
+import { ManualAddress } from './manual-address';
+import { PickupOption } from './pickup-option';
 
 type FormInput = Omit<
 	User,
@@ -26,25 +26,50 @@ type serverResponse = {
 function CustomerAddress() {
 	const auth = useContext(AuthContext);
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
+	const [hasError, setHasError] = useState<string | null>(null);
 	const [formData, setFormData] = useState<FormInput>({} as FormInput);
 	const [userAddress, setUserAddress] = useState<FormInput[]>([]);
 	const [addressIdx, setAddressIdx] = useState(0);
-	const [hasError, setHasError] = useState<string | null>(null);
-	let { addressId, manualAddress, pickup } = useCheckoutData();
-	const { back, next, backStep, nextStep } = useCheckoutSteps();
+
 	const {
 		isDelivery,
 		isPickup,
-		setIsDelivery,
-		isManualAddress,
 		setIsManualAddress,
 		setIsPickup,
 		setDeliveryAddressId,
+		setDeliveryAddress,
+		setBillingAddress,
 	} = useOrders();
 
 	const customerAction = isDelivery ? 'database' : 'pickup';
 
 	const [pickupState, setPickupState] = useState<string>(customerAction);
+
+	function setAddress(userAddress: FormInput, name: string) {
+		const localOrder = localStorage.getItem('usersOrder');
+		const parsedOrder = JSON.parse(localOrder!);
+
+		const address = {
+			name: auth.firstName + ' ' + auth.lastName,
+			address: userAddress.address,
+			city: userAddress.city,
+			state_province: userAddress.state_province,
+			postal_code: userAddress.postal_code,
+			country: userAddress.country,
+		};
+
+		name === 'deliveryAddress'
+			? setDeliveryAddress(address)
+			: setBillingAddress(address);
+
+		localStorage.setItem(
+			'usersOrder',
+			JSON.stringify({
+				...parsedOrder,
+				[name]: { ...address },
+			})
+		);
+	}
 
 	useEffect(() => {
 		console.log('useEffect - getUser');
@@ -67,6 +92,8 @@ function CustomerAddress() {
 				setFormData(userInfo);
 				setUserAddress(userAddress);
 				setDeliveryAddressId(userAddress[0].address_id);
+				setAddress(userAddress[0], 'billingAddress');
+				setAddress(userAddress[0], 'deliveryAddress');
 			} catch (error: any) {
 				setHasError(error);
 			}
@@ -91,8 +118,9 @@ function CustomerAddress() {
 		event.preventDefault();
 		const idx = parseInt(event.target.value, 10);
 		setAddressIdx(idx);
-		addressId = userAddress[idx].address_id;
-		setDeliveryAddressId(addressId);
+		setDeliveryAddressId(userAddress[idx].address_id);
+		setAddress(userAddress[idx], 'deliveryAddress');
+		setIsManualAddress(false);
 	};
 
 	const customerAddressHandler = () => {};
@@ -162,7 +190,7 @@ function CustomerAddress() {
 						timeout={200}
 						classNames='options'>
 						<div className='options'>
-							<ManualAddress {...manualAddress} />
+							<ManualAddress />
 						</div>
 					</CSSTransition>
 				</div>
@@ -184,7 +212,7 @@ function CustomerAddress() {
 						timeout={200}
 						classNames='options'>
 						<div className='options'>
-							<PickupOption {...pickup} />
+							<PickupOption />
 						</div>
 					</CSSTransition>
 				</div>

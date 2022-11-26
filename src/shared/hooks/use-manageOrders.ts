@@ -4,12 +4,19 @@ import { Items } from '../interfaces/items';
 import configData from '../../config.json';
 import { AuthContext } from '../context/auth-context';
 import useOrders from '../../zustand/userOrders';
+import { AuthContextIf } from '../../shared/context/auth-context';
+import {
+	ServerResponse as customerOrders,
+	customerPickupOptions,
+	customerCheckoutOptions,
+} from '../../shared/interfaces/customer-orders';
+import { manualAddress } from '../../shared/interfaces/customerInfo';
 
 const getOrderUrl = (action: string): string => {
 	const url = `${configData.BACKEND_URL}/orders`;
 	switch (action) {
 		case 'get':
-			return `${url}/get`;
+			return `${url}/`;
 		case 'getOrder':
 			return `${url}/getUserOrder`;
 		case 'create':
@@ -25,7 +32,7 @@ const getOrderUrl = (action: string): string => {
 	}
 };
 
-type ServerResponse = { message: string; action: string; items?: [] };
+type ServerResponse = { message: string; action: string; items?: Array<Items> };
 
 const useManageOrders = () => {
 	const auth = useContext(AuthContext);
@@ -46,8 +53,8 @@ const useManageOrders = () => {
 		const body = JSON.stringify({
 			address_id: orders.deliveryAddressId,
 			manual_address: orders.manualAddress,
-			// isManualAddress: orders.isManualAddress,
-			// isPickup: orders.isPickup,
+			is_pickup: orders.isPickup,
+			is_manual_address: orders.isManualAddress,
 			pickup_date: orders.pickupDate,
 			pickup_time: orders.pickupTime,
 		});
@@ -65,14 +72,69 @@ const useManageOrders = () => {
 		}
 	};
 
-	const setOrderDetails = (order: any) => {
+	const getOrder = async (auth: AuthContextIf) => {
+		const action = 'get';
+		const method = 'GET';
+
+		const header = {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${auth.token}`,
+		};
+		try {
+			const data: customerPickupOptions = await httpFetch(
+				getOrderUrl(action),
+				method,
+				null,
+				header
+			);
+			return data;
+		} catch (error: any) {
+			console.error(error);
+			throw new Error(error.message);
+		}
+	};
+
+	const getCustomerOrder = async (auth: AuthContextIf) => {
+		const action = 'getOrder';
+		const method = 'GET';
+
+		const header = {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${auth.token}`,
+		};
+		try {
+			const data: customerOrders = await httpFetch(
+				getOrderUrl(action),
+				method,
+				null,
+				header
+			);
+			return data;
+		} catch (error: any) {
+			console.error(error);
+			throw new Error(error.message);
+		}
+	};
+
+	const deserializeManualAddress = (address: string): manualAddress => {
+		const addressObject: manualAddress = JSON.parse(address);
+		return addressObject;
+	};
+
+	const setOrderDetails = (order: customerCheckoutOptions) => {
 		orders.setDeliveryInstructions(order.delivery_instructions);
 		orders.setRequestedDeliveryDate(order.requested_delivery_date);
 		orders.setOrderDate(order.order_date);
 		orders.setPurchaseOrder(order.purchase_order);
 		orders.setPickupDate(order.pickup_date);
 		orders.setPickupTime(order.pickup_time);
-		orders.setManualAddress(order.manual_address);
+		if (typeof order.manual_address === 'string') {
+			orders.setManualAddress(
+				deserializeManualAddress(order.manual_address)
+			);
+		} else {
+			orders.setManualAddress(order.manual_address);
+		}
 
 		window.localStorage.setItem(
 			'usersOrder',
@@ -92,6 +154,23 @@ const useManageOrders = () => {
 					: '',
 			})
 		);
+
+		console.log('local storage', window.localStorage.getItem('usersOrder'));
+	};
+
+	const setOrderDetailsFromLocalStorage = () => {
+		const order: customerCheckoutOptions =
+			localStorage.getItem('usersOrder') &&
+			JSON.parse(localStorage.getItem('usersOrder')!);
+		if (order) {
+			orders.setDeliveryInstructions(order.delivery_instructions);
+			orders.setRequestedDeliveryDate(order.requested_delivery_date);
+			orders.setOrderDate(order.order_date);
+			orders.setPurchaseOrder(order.purchase_order);
+			orders.setPickupDate(order.pickup_date);
+			orders.setPickupTime(order.pickup_time);
+			orders.setManualAddress(order.manual_address);
+		}
 	};
 
 	const updateOrderDetail = (name: string, value: string) => {
@@ -113,7 +192,14 @@ const useManageOrders = () => {
 		}
 	};
 
-	return { setOrderDetails, updateOrderDetail, updateCustomerOrder };
+	return {
+		setOrderDetails,
+		setOrderDetailsFromLocalStorage,
+		updateOrderDetail,
+		updateCustomerOrder,
+		getCustomerOrder,
+		getOrder,
+	};
 };
 
 export default useManageOrders;

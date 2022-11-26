@@ -7,6 +7,7 @@ export interface AuthContextIf {
 	email: string | null;
 	firstName: string | null;
 	lastName: string | null;
+	phone: string | null;
 	token: boolean | null;
 	login: (
 		uid: string | null,
@@ -14,6 +15,7 @@ export interface AuthContextIf {
 		email: string | null,
 		firstName: string | null,
 		lastName: string | null,
+		phone: string | null,
 		token: boolean,
 		expirationData?: Date | null
 	) => void;
@@ -21,7 +23,8 @@ export interface AuthContextIf {
 	updateUserSession: (
 		email: string | null,
 		firstName: string | null,
-		lastName: string | null
+		lastName: string | null,
+		phone: string | null
 	) => void;
 }
 
@@ -32,6 +35,7 @@ export const AuthContext = createContext<AuthContextIf>({
 	email: null,
 	firstName: null,
 	lastName: null,
+	phone: null,
 	token: false,
 	login: () => {},
 	logout: () => {},

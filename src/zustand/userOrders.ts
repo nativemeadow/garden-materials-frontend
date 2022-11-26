@@ -7,7 +7,7 @@ import {
 	initialAddressInfo,
 } from '../shared/interfaces/customerInfo';
 
-type Store = {
+export type Store = {
 	id: number;
 	orderDate: Date;
 	Items: Array<Items>;
@@ -28,6 +28,8 @@ type Store = {
 	isManualAddress: boolean;
 	deliveryAddressId: string;
 	manualAddress: manualAddress;
+	billingAddress: manualAddress;
+	deliveryAddress: manualAddress;
 	isPickup: boolean;
 	pickupDate: string;
 	pickupTime: string;
@@ -43,7 +45,13 @@ type Store = {
 	setIsDelivery: (isDelivery: boolean) => void;
 	setDeliveryAddressId: (deliveryAddressId: string) => void;
 	setIsManualAddress: (isManualAddress: boolean) => void;
+	initializeManualAddress: (input: string) => void;
 	setManualAddress: (manualAddress: manualAddress) => void;
+	getManualAddress: () => manualAddress;
+	setBillingAddress: (billingAddress: manualAddress) => void;
+	getBillingAddress: () => manualAddress;
+	setDeliveryAddress: (billingAddress: manualAddress) => void;
+	getDeliveryAddress: () => manualAddress;
 	setPaymentMethod: (paymentMethod: string) => void;
 	setCreatedAt: (createdAt: Date) => void;
 	setUpdatedAt: (updatedAt: Date) => void;
@@ -70,6 +78,8 @@ const initialState = {
 	updatedAt: new Date(),
 	deliveryAddressId: '',
 	manualAddress: initialAddressInfo.manualAddress,
+	billingAddress: initialAddressInfo.manualAddress,
+	deliveryAddress: initialAddressInfo.manualAddress,
 	isDelivery: false,
 	isManualAddress: false,
 	isPickup: false,
@@ -169,9 +179,46 @@ const useOrders = create<Store>((set, get) => ({
 			isManualAddress,
 		}));
 	},
+	getManualAddress: () => {
+		return get().manualAddress;
+	},
+	initializeManualAddress: (input: string) => {
+		const address = JSON.parse(input);
+		set((state) => ({
+			...address,
+		}));
+	},
 	setManualAddress: (manualAddress: manualAddress) => {
 		set((state) => ({
 			manualAddress,
+		}));
+	},
+	getBillingAddress: () => {
+		return get().billingAddress;
+	},
+	initializeBillingAddress: (input: string) => {
+		const address = JSON.parse(input);
+		set((state) => ({
+			...address,
+		}));
+	},
+	setBillingAddress: (billingAddress: manualAddress) => {
+		set((state) => ({
+			billingAddress,
+		}));
+	},
+	getDeliveryAddress: () => {
+		return get().deliveryAddress;
+	},
+	initializeDeliveryAddress: (input: string) => {
+		const address = JSON.parse(input);
+		set((state) => ({
+			...address,
+		}));
+	},
+	setDeliveryAddress: (deliveryAddress: manualAddress) => {
+		set((state) => ({
+			deliveryAddress,
 		}));
 	},
 	setIsPickup: (isPickup: boolean) => {
