@@ -53,7 +53,7 @@ const ShippingDelivery = () => {
 	const mapRef = useRef<GoogleMap>();
 
 	const [map, setMap] = React.useState<google.maps.Map | null>(null);
-	const [directionState, setDirectionState] = useState<directionsType>({
+	const [directionState] = useState<directionsType>({
 		travelMode: google.maps.TravelMode.DRIVING,
 		origin: configData.GOOGLE_MAP_ORIGIN,
 		destination: `${deliveryAddress.address} ${deliveryAddress.city}, ${deliveryAddress.state_province} ${deliveryAddress.postal_code}`,
@@ -88,6 +88,10 @@ const ShippingDelivery = () => {
 								setDuration(
 									result.routes[0].legs[0].duration!.value
 								);
+								userOrders.setDeliveryDistance(
+									round(distance / 1000) * 0.621371
+								);
+								userOrders.setDeliveryDuration(round(duration));
 							}
 						}
 					);
@@ -100,7 +104,14 @@ const ShippingDelivery = () => {
 		};
 
 		getDirections();
-	}, [directionState.destination, directionState.travelMode, center]);
+	}, [
+		directionState.destination,
+		directionState.travelMode,
+		center,
+		userOrders,
+		distance,
+		duration,
+	]);
 
 	return (
 		<div>
@@ -118,10 +129,10 @@ const ShippingDelivery = () => {
 					</GoogleMap>
 					<div>
 						<h3>
-							Distance: {round((distance / 1000) * 0.621371)}{' '}
+							Distance: {round((distance / 1000) * 0.621371)}
 							miles
 						</h3>
-						<h3>Duration: {duration / 60} min</h3>
+						<h3>Duration: {round(duration / 60)} min</h3>
 					</div>
 				</>
 			)}

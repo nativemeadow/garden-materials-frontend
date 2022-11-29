@@ -34,6 +34,7 @@ function CustomerAddress() {
 	const {
 		isDelivery,
 		isPickup,
+		isManualAddress,
 		setIsManualAddress,
 		setIsPickup,
 		setDeliveryAddressId,
@@ -100,6 +101,8 @@ function CustomerAddress() {
 		};
 
 		fetchUser();
+		setPickupState(isManualAddress ? 'manual' : customerAction);
+		setIsManualAddress(pickupState === 'manual' ? true : false);
 	}, []);
 
 	const handleDeliverySelection = (
@@ -121,6 +124,13 @@ function CustomerAddress() {
 		setDeliveryAddressId(userAddress[idx].address_id);
 		setAddress(userAddress[idx], 'deliveryAddress');
 		setIsManualAddress(false);
+		setPickupState(customerAction);
+		const usersOrder = localStorage.getItem('usersOrder');
+		const parsedOrder = JSON.parse(usersOrder!);
+		localStorage.setItem(
+			'usersOrder',
+			JSON.stringify({ ...parsedOrder, isManualAddress: false })
+		);
 	};
 
 	const customerAddressHandler = () => {};
@@ -166,7 +176,7 @@ function CustomerAddress() {
 								</div>
 								<div>{userAddress[addressIdx].address}</div>
 								<div>
-									{userAddress[addressIdx].city}{' '}
+									{userAddress[addressIdx].city}
 									{userAddress[addressIdx].state_province}
 								</div>
 								<div>{userAddress[addressIdx].postal_code}</div>

@@ -30,6 +30,8 @@ export type Store = {
 	manualAddress: manualAddress;
 	billingAddress: manualAddress;
 	deliveryAddress: manualAddress;
+	deliveryDistance: number;
+	deliveryDuration: number;
 	isPickup: boolean;
 	pickupDate: string;
 	pickupTime: string;
@@ -52,6 +54,8 @@ export type Store = {
 	getBillingAddress: () => manualAddress;
 	setDeliveryAddress: (billingAddress: manualAddress) => void;
 	getDeliveryAddress: () => manualAddress;
+	setDeliveryDistance: (deliveryDistance: number) => void;
+	setDeliveryDuration: (deliveryDuration: number) => void;
 	setPaymentMethod: (paymentMethod: string) => void;
 	setCreatedAt: (createdAt: Date) => void;
 	setUpdatedAt: (updatedAt: Date) => void;
@@ -80,6 +84,8 @@ const initialState = {
 	manualAddress: initialAddressInfo.manualAddress,
 	billingAddress: initialAddressInfo.manualAddress,
 	deliveryAddress: initialAddressInfo.manualAddress,
+	deliveryDistance: 0,
+	deliveryDuration: 0,
 	isDelivery: false,
 	isManualAddress: false,
 	isPickup: false,
@@ -167,6 +173,16 @@ const useOrders = create<Store>((set, get) => ({
 	setDeliveryAddressId: (deliveryAddressId: string) => {
 		set((state) => ({
 			deliveryAddressId,
+		}));
+	},
+	setDeliveryDistance: (deliveryDistance: number) => {
+		set((state) => ({
+			deliveryDistance,
+		}));
+	},
+	setDeliveryDuration: (deliveryDuration: number) => {
+		set((state) => ({
+			deliveryDuration,
 		}));
 	},
 	setIsDelivery: (isDelivery: boolean) => {

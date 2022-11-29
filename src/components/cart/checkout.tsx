@@ -44,12 +44,17 @@ const Checkout = () => {
 	const location = useLocation();
 
 	const [state, dispatch] = useReducer(reducer, initialState);
-	// const [addressInfo, setAddressInfo] =
-	// 	useState<addressContextType>(initialAddressInfo);
-	const { updateCustomerOrder, setOrderDetailsFromLocalStorage } =
-		useManageOrders();
+	const { updateCustomerOrder } = useManageOrders();
 	const [error, setError] = useState<string | null>(null);
-	const { isPickup, pickupDate, pickupTime } = useOrders();
+	const {
+		isPickup,
+		pickupDate,
+		pickupTime,
+		isManualAddress,
+		manualAddress,
+		setDeliveryAddress,
+		setIsManualAddress,
+	} = useOrders();
 
 	const { back, next, setPickup, setCurrentStep, currentNavigation } =
 		useCheckoutSteps();
@@ -87,6 +92,21 @@ const Checkout = () => {
 			if (data?.message.includes('Error')) {
 				setError(data.message);
 				isError = true;
+			} else {
+				const usersOrder = localStorage.getItem('usersOrder');
+				if (usersOrder && isManualAddress) {
+					const orders = JSON.parse(usersOrder);
+					localStorage.setItem(
+						'usersOrder',
+						JSON.stringify({
+							...orders,
+							isManualAddress: isManualAddress,
+							deliveryAddress: manualAddress,
+						})
+					);
+					setDeliveryAddress(manualAddress);
+					setIsManualAddress(false);
+				}
 			}
 		}
 

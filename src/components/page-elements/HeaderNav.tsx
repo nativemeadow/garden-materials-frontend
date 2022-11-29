@@ -42,7 +42,7 @@ const HeaderNav: React.FC = () => {
 						<NavLink to='/home'>
 							<img
 								className={classes['site-logo__image']}
-								src='/images/logo.png'
+								src='/images/terrace-logo.png'
 								alt='Lyngso logo'
 							/>
 						</NavLink>

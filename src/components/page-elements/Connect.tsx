@@ -149,13 +149,13 @@ const Connect: React.FC = () => {
 					<h3 className={addressTitle}>Address</h3>
 					<div className={classes['address--hours']}>
 						<address className={classes['address__detail']}>
-							345 Shoreway Road
+							256 Bolder Road
 							<br />
-							San Carlos, CA 94070
+							Half Moon Bay, CA 94203
 						</address>
 						<p>
-							P 650&nbsp;.&nbsp;364&nbsp;.&nbsp;1730
-							<br />F 650.&nbsp;361&nbsp;.&nbsp;1933
+							P 650&nbsp;.&nbsp;364&nbsp;.&nbsp;9999
+							<br />F 650.&nbsp;361&nbsp;.&nbsp;9999
 						</p>
 						<h3 className={classes['component-title']}>Hours:</h3>
 						<p>
@@ -164,7 +164,7 @@ const Connect: React.FC = () => {
 							Sun Closed
 						</p>
 						<h3 className={classes['component-title']}>
-							First time at Lyngso?
+							First time at Terrace?
 						</h3>
 						<a className={classes['product-item__link']} href='#'>
 							View Our Business Map

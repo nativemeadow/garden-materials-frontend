@@ -46,14 +46,6 @@ export const ManualAddress = () => {
 			state_province: formState.inputs.state_province?.value,
 			country: 'USA',
 		});
-		setDeliveryAddress({
-			name: formState.inputs.name?.value,
-			address: `${formState.inputs.address?.value}`,
-			city: formState.inputs.city?.value,
-			postal_code: formState.inputs.postal_code?.value,
-			state_province: formState.inputs.state_province?.value,
-			country: 'USA',
-		});
 		setIsManualAddress(true);
 		console.log('update the manual address');
 	}, [

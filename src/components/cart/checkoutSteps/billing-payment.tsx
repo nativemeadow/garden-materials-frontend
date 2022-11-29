@@ -53,12 +53,29 @@ const BillingPayment = () => {
 	const billingAddress = userOrders.billingAddress;
 	const deliveryAddress = userOrders.deliveryAddress;
 	const { dollarUSLocale } = CalCost();
+	const [formattedDeliveryDate] = useState(() => {
+		const month = userOrders.requestedDeliveryDate.split('-')[1];
+		const day = userOrders.requestedDeliveryDate.split('-')[2];
+		const year = userOrders.requestedDeliveryDate.split('-')[0];
+		return `${month}/${day}/${year}`;
+	});
+	const [formattedDeliveryCost] = useState(() => {
+		const deliveryCostRate =
+			userOrders.deliveryDistance /
+			configData.SHIPPING_INCREMENT_DISTANCE;
+		const deliveryCost =
+			deliveryCostRate < 1
+				? configData.SHIPPING_BASE_COST
+				: deliveryCostRate * configData.SHIPPING_BASE_COST;
+		return round(userOrders.deliveryDistance * 12 + deliveryCost);
+	});
 	let pickupDeliveryTitle = userOrders.isPickup
 		? 'Customer Information'
 		: 'Delivery Information';
 
 	useEffect(() => {
-		setTotalCost(round(cartTotal() + cartTotal() * configData.SALES_TAX));
+		const tax = cartTotal() * configData.SALES_TAX;
+		setTotalCost(round(cartTotal() + tax + formattedDeliveryCost));
 	}, []);
 
 	return (
@@ -107,6 +124,11 @@ const BillingPayment = () => {
 							<div>
 								$&nbsp;{dollarUSLocale.format(cartTotal())}
 							</div>
+							<h6 className=' mt-2'>Delivery</h6>
+							<div className=' mt-2'>
+								$&nbsp;
+								{dollarUSLocale.format(formattedDeliveryCost)}
+							</div>
 							<h6 className='mt-2'>Tax</h6>
 							<div className='mt-2'>
 								$&nbsp;
@@ -143,7 +165,7 @@ const BillingPayment = () => {
 							</div>
 							<div>{deliveryAddress.address}</div>
 							<div>
-								{deliveryAddress.city},{' '}
+								{deliveryAddress.city},
 								{deliveryAddress.postal_code}
 							</div>
 							<div>{deliveryAddress.state_province}</div>
@@ -154,7 +176,7 @@ const BillingPayment = () => {
 							<h4 className='mt-2 font-semibold'>
 								Delivery Date
 							</h4>
-							<div>{userOrders.requestedDeliveryDate}</div>
+							<div>{formattedDeliveryDate}</div>
 						</>
 					)}
 				</div>
@@ -170,6 +192,7 @@ const BillingPayment = () => {
 						{billingAddress.state_province}
 					</div>
 					<h4 className='mt-2 font-semibold'>Shipping Information</h4>
+					<div>{deliveryAddress.city}</div>
 				</div>
 			</div>
 		</>
