@@ -59,23 +59,46 @@ const BillingPayment = () => {
 		const year = userOrders.requestedDeliveryDate.split('-')[0];
 		return `${month}/${day}/${year}`;
 	});
-	const [formattedDeliveryCost] = useState(() => {
-		const deliveryCostRate =
-			userOrders.deliveryDistance /
-			configData.SHIPPING_INCREMENT_DISTANCE;
-		const deliveryCost =
-			deliveryCostRate < 1
-				? configData.SHIPPING_BASE_COST
-				: deliveryCostRate * configData.SHIPPING_BASE_COST;
-		return round(userOrders.deliveryDistance * 12 + deliveryCost);
-	});
+	const [formattedDeliveryCost, setFormattedDeliveryCost] =
+		useState<number>();
+
 	let pickupDeliveryTitle = userOrders.isPickup
 		? 'Customer Information'
 		: 'Delivery Information';
 
 	useEffect(() => {
 		const tax = cartTotal() * configData.SALES_TAX;
-		setTotalCost(round(cartTotal() + tax + formattedDeliveryCost));
+		type deliveryFee = { deliveryCost: number };
+
+		const deliveryCostRate = async () => {
+			const headers = {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${auth.token}`,
+			};
+
+			try {
+				return (await httpFetch(
+					`${configData.BACKEND_URL}/orders/updateDeliveryCost`,
+					'PUT',
+					JSON.stringify({
+						deliveryDistanced: userOrders.deliveryDistance,
+					}),
+					headers
+				)) as deliveryFee;
+			} catch (error) {
+				console.log('Error', error);
+			}
+		};
+
+		if (!userOrders.isPickup) {
+			deliveryCostRate().then((res: any) => {
+				const deliveryCost = res.order.deliveryCost;
+				setTotalCost(round(cartTotal() + tax + deliveryCost!));
+				setFormattedDeliveryCost(round(deliveryCost));
+			});
+		} else {
+			setTotalCost(round(cartTotal() + tax));
+		}
 	}, []);
 
 	return (
@@ -124,11 +147,17 @@ const BillingPayment = () => {
 							<div>
 								$&nbsp;{dollarUSLocale.format(cartTotal())}
 							</div>
-							<h6 className=' mt-2'>Delivery</h6>
-							<div className=' mt-2'>
-								$&nbsp;
-								{dollarUSLocale.format(formattedDeliveryCost)}
-							</div>
+							{!userOrders.isPickup && (
+								<>
+									<h6 className=' mt-2'>Delivery</h6>
+									<div className=' mt-2'>
+										$&nbsp;
+										{dollarUSLocale.format(
+											formattedDeliveryCost as number
+										)}
+									</div>
+								</>
+							)}
 							<h6 className='mt-2'>Tax</h6>
 							<div className='mt-2'>
 								$&nbsp;
@@ -152,7 +181,7 @@ const BillingPayment = () => {
 									)}
 							</div>
 							<div>
-								{auth.firstName} {auth.lastName}
+								{auth.firstName} {auth.lastName}&nbsp;
 								{auth.username}
 							</div>
 							<div>{auth.email}</div>

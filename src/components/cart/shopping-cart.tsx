@@ -19,7 +19,7 @@ import DeliveryOption from './delivery-option';
 import { formatDate } from '../../shared/util/date-utils';
 import CalCost from './calculate-cost';
 import './shopping-cart.css';
-import OrderSummary from './order-summary';
+// import OrderSummary from './order-summary';
 
 const ShoppingCart = () => {
 	const [pickupState, setPickupState] = useState('');

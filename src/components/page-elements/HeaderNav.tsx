@@ -15,8 +15,6 @@ const HeaderNav: React.FC = () => {
 	const searchRef = useRef<HTMLInputElement>(null);
 	const shoppingCart = useShoppingCart((state) => state);
 
-	// console.log('Window Size:', windowSize);
-
 	const searchHandler = (event: React.FormEvent) => {
 		event.preventDefault();
 

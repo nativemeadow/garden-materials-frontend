@@ -20,7 +20,7 @@ const Welcome = () => {
 			)}
 			{!auth.isLoggedIn && (
 				<p className='message'>
-					You are no longer logged in. Please
+					You are no longer logged in. Please&nbsp;
 					<NavLink to='/login'>login</NavLink> to continue.
 				</p>
 			)}

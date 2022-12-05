@@ -8,6 +8,7 @@ export const useManageUsers = () => {
 	const getHeaders = (auth: AuthContextIf) => {
 		return {
 			'Content-Type': 'application/json',
+			withCredentials: true,
 			Authorization: `Bearer ${auth.token}`,
 		};
 	};
@@ -40,7 +41,11 @@ export const useManageUsers = () => {
 			newUserInfo.customer_type = '2';
 		}
 
-		const headers = { 'Content-Type': 'application/json' };
+		const headers = {
+			'Content-Type': 'application/json',
+			withCredentials: true,
+			credentials: 'include',
+		};
 
 		try {
 			const responseData: any = await httpFetch(

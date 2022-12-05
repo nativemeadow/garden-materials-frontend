@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 import {
 	Outlet,
-	useOutletContext,
+	// useOutletContext,
 	useLocation,
 	useNavigate,
 } from 'react-router-dom';
@@ -9,11 +9,11 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { formatError } from '../../shared/util/format-error';
 import { AuthContext } from '../../shared/context/auth-context';
 import useCheckoutSteps from '../../zustand/checkoutSteps';
-import {
-	ServerResponse as customerOrders,
-	customerPickupOptions,
-	customerCheckoutOptions,
-} from '../../shared/interfaces/customer-orders';
+// import {
+// 	ServerResponse as customerOrders,
+// 	customerPickupOptions,
+// 	customerCheckoutOptions,
+// } from '../../shared/interfaces/customer-orders';
 import useManageOrders from '../../shared/hooks/use-manageOrders';
 import useOrders from '../../zustand/userOrders';
 

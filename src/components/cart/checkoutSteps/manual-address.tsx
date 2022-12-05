@@ -5,8 +5,6 @@ import { VALIDATOR_REQUIRE } from '../../../shared/util/validators';
 import { statesProvinces } from '../../../shared/counties-locals/location-lookup';
 import useOrders from '../../../zustand/userOrders';
 import classes from './customer-address.module.css';
-import { manualAddress } from '../../../shared/interfaces/customerInfo';
-import TextInput from '../../../shared/components/FormElements/TextInput';
 
 const manualDeliveryAddress = {
 	name: { value: '', isValid: false },
@@ -46,7 +44,6 @@ export const ManualAddress = () => {
 			state_province: formState.inputs.state_province?.value,
 			country: 'USA',
 		});
-		setIsManualAddress(true);
 		console.log('update the manual address');
 	}, [
 		formState.inputs,
