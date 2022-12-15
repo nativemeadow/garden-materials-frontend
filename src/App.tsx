@@ -28,6 +28,7 @@ import Confirmation from './components/cart/checkoutSteps/confirmation';
 import BillingPayments from './components/cart/checkoutSteps/billing-payment';
 import ShippingDelivery from './components/cart/checkoutSteps/shipping-delivery';
 import OrderSummary from './components/cart/order-summary';
+import Results from 'components/search/results';
 
 import TestRedux from './components/product-categories/test-redux';
 import TestImages from './components/product-categories/test-images';
@@ -148,6 +149,10 @@ function App() {
 							<Route
 								path='/user/success/:message'
 								element={<UserSuccess />}
+							/>
+							<Route
+								path='/search/:searchTerm'
+								element={<Results />}
 							/>
 							<Route path='/welcome' element={<Welcome />} />
 							<Route

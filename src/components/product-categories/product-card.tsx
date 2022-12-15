@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { parser } from '../../shared/util/html-parse';
 import { Product } from '../../shared/interfaces/product';
 import configData from '../../config.json';
+import { round } from '../../shared/util/math-utilities';
 import Image from '../../shared/components/UIElements/Images';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -69,6 +70,16 @@ const ProductCard: React.FC<{
 					<div className={classes['product-car__price-info']}>
 						<ul className={classes['product-card-pricing']}>
 							{filterPricing(product, categoryId)}
+							{product.relevance !== undefined ? (
+								<li
+									className={
+										classes['product-card-relevance']
+									}>
+									Relevance: {round(product.relevance)}
+								</li>
+							) : (
+								''
+							)}
 						</ul>
 					</div>
 				</div>

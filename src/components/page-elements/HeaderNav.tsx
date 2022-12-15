@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Hamburger from './ResponsiveMenu';
 import NavLinks from './NavLinks';
 import { useWindowSize } from '../../shared/hooks/widowSize-hook';
@@ -14,6 +14,7 @@ const HeaderNav: React.FC = () => {
 	const windowSize = useWindowSize();
 	const searchRef = useRef<HTMLInputElement>(null);
 	const shoppingCart = useShoppingCart((state) => state);
+	const navigate = useNavigate();
 
 	const searchHandler = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -21,6 +22,7 @@ const HeaderNav: React.FC = () => {
 		const searchTerms = searchRef.current?.value;
 
 		console.log('search button clicked, entered:', searchTerms);
+		navigate(`/search/${searchTerms}`);
 	};
 
 	const closeResponsiveMenu = () => {

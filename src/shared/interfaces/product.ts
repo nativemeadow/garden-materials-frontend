@@ -27,6 +27,7 @@ export interface Product {
 	image: string;
 	imageLensSize: string;
 	extended: string;
+	relevance?: number;
 	pricing: Pricing[];
 }
 

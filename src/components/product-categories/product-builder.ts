@@ -11,6 +11,7 @@ function ProductBuilder(prod: Product) {
 		imageLensSize: prod.imageLensSize,
 		extended: prod.extended,
 		pricing: prod.pricing,
+		relevance: prod.relevance,
 	};
 	return currentProduct;
 }
