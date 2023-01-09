@@ -12,7 +12,6 @@ import ProductCard from '../product-categories/product-card';
 import { Product } from '../../shared/interfaces/product';
 
 import classes from './results.module.css';
-import productClasses from '../product-categories/products.module.css';
 
 const Results: React.FC = () => {
 	const { searchTerm } = useParams();

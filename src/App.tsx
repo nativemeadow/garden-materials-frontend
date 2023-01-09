@@ -25,7 +25,7 @@ import CustomerInformation from './components/cart/checkout/customer-information
 import Confirmation from './components/cart/checkout/confirmation';
 import BillingPayments from './components/cart/checkout/billing-payment';
 import ShippingDelivery from './components/cart/checkout/shipping-delivery';
-import Results from 'components/search/results';
+import Results from './components/search/results';
 
 import TestRedux from './components/product-categories/test-redux';
 import TestImages from './components/product-categories/test-images';
