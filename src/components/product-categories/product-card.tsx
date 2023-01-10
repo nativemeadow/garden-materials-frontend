@@ -16,7 +16,7 @@ const filterPricing = (product: Product, categoryId: string | undefined) => {
 		return (
 			<Link
 				key={`link-${Math.random()}-${product.sku}`}
-				to={`/category/${categoryId}/product/${product.id}`}>
+				to={`/category/${categoryId}/product/${product.url_key}`}>
 				<li key={key} id={`price-${price.key}`}>
 					<span className={classes['product-card-pricing-usd']}>
 						{price.price.toFixed(2)}
@@ -37,7 +37,8 @@ const ProductCard: React.FC<{
 		<div className={classes['product-card']}>
 			<div className={classes['product-card--container']}>
 				<div className={classes['product-card--image']}>
-					<Link to={`/category/${categoryId}/product/${product.id}`}>
+					<Link
+						to={`/category/${categoryId}/product/${product.url_key}`}>
 						{/* <Image
                     src={[
                         `${configData.IMAGES}/products/${product.image}`,
@@ -48,7 +49,7 @@ const ProductCard: React.FC<{
                             ? product.title
                             : ''
                     }
-                /> */}
+                	/> */}
 						<img
 							src={`${configData.IMAGES}/products/${product.image}`}
 							loading='lazy'
@@ -61,7 +62,7 @@ const ProductCard: React.FC<{
 				<div className={classes['product-card__content']}>
 					<h2 className={classes['product-card-title']}>
 						<Link
-							to={`/category/${categoryId}/product/${product.id}`}>
+							to={`/category/${categoryId}/product/${product.url_key}`}>
 							{parser(product.title.toUpperCase())}
 						</Link>
 					</h2>
